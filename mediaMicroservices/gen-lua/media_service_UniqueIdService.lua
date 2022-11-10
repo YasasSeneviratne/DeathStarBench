@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -120,6 +121,8 @@ local UniqueIdServiceClient = __TObject.new(__TClient, {
 })
 
 function UniqueIdServiceClient:UploadUniqueId(req_id, carrier)
+  io.write(string.format("shiftlog luasend UniqueIdServiceClient UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUniqueId(req_id, carrier)
   self:recv_UploadUniqueId(req_id, carrier)
 end

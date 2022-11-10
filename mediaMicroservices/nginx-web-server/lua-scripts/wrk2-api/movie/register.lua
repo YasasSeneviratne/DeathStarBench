@@ -1,5 +1,6 @@
 local _M = {}
 local k8s_suffix = os.getenv("fqdn_suffix")
+local posix = require 'posix'
 if (k8s_suffix == nil) then
   k8s_suffix = ""
 end
@@ -32,7 +33,8 @@ function _M.RegisterMovie()
   end
 
   local client = GenericObjectPool:connection(MovieIdServiceClient,"movie-id-service" .. k8s_suffix ,9090)
-
+  io.write(string.format("shiftlog luanginx RegisterMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   client:RegisterMovieId(req_id, post.title, tostring(post.movie_id), carrier)
   GenericObjectPool:returnConnection(client)
 

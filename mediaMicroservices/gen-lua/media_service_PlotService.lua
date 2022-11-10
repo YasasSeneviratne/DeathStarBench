@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -263,6 +264,8 @@ local PlotServiceClient = __TObject.new(__TClient, {
 })
 
 function PlotServiceClient:WritePlot(req_id, plot_id, plot, carrier)
+  io.write(string.format("shiftlog luasend PlotServiceClient WritePlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_WritePlot(req_id, plot_id, plot, carrier)
   self:recv_WritePlot(req_id, plot_id, plot, carrier)
 end
@@ -296,6 +299,8 @@ function PlotServiceClient:recv_WritePlot(req_id, plot_id, plot, carrier)
 end
 
 function PlotServiceClient:ReadPlot(req_id, plot_id, carrier)
+  io.write(string.format("shiftlog luasend PlotServiceClient ReadPlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadPlot(req_id, plot_id, carrier)
   return self:recv_ReadPlot(req_id, plot_id, carrier)
 end

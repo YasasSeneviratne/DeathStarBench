@@ -1,5 +1,6 @@
 local _M = {}
 local k8s_suffix = os.getenv("fqdn_suffix")
+local posix = require 'posix'
 if (k8s_suffix == nil) then
   k8s_suffix = ""
 end
@@ -37,6 +38,8 @@ function _M.WritePlot()
   end
 
   local client = GenericObjectPool:connection(PlotServiceClient, "plot-service" .. k8s_suffix, 9090)
+  io.write(string.format("shiftlog luanginx WritePlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   client:WritePlot(req_id, plot["plot_id"], plot["plot"], carrier)
   GenericObjectPool:returnConnection(client)
 end

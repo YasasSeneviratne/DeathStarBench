@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -522,6 +523,8 @@ local MovieInfoServiceClient = __TObject.new(__TClient, {
 })
 
 function MovieInfoServiceClient:WriteMovieInfo(req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier)
+  io.write(string.format("shiftlog luasend MovieInfoServiceClient WriteMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_WriteMovieInfo(req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier)
   self:recv_WriteMovieInfo(req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier)
 end
@@ -562,6 +565,8 @@ function MovieInfoServiceClient:recv_WriteMovieInfo(req_id, movie_id, title, cas
 end
 
 function MovieInfoServiceClient:ReadMovieInfo(req_id, movie_id, carrier)
+  io.write(string.format("shiftlog luasend MovieInfoServiceClient ReadMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadMovieInfo(req_id, movie_id, carrier)
   return self:recv_ReadMovieInfo(req_id, movie_id, carrier)
 end
@@ -597,6 +602,8 @@ function MovieInfoServiceClient:recv_ReadMovieInfo(req_id, movie_id, carrier)
 end
 
 function MovieInfoServiceClient:UpdateRating(req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier)
+  io.write(string.format("shiftlog luasend MovieInfoServiceClient UpdateRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UpdateRating(req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier)
   self:recv_UpdateRating(req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier)
 end

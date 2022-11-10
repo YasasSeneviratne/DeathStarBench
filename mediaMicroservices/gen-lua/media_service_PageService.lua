@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -170,6 +171,8 @@ local PageServiceClient = __TObject.new(__TClient, {
 })
 
 function PageServiceClient:ReadPage(req_id, movie_id, review_start, review_stop, carrier)
+  io.write(string.format("shiftlog luasend PageServiceClient ReadPage %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadPage(req_id, movie_id, review_start, review_stop, carrier)
   return self:recv_ReadPage(req_id, movie_id, review_start, review_stop, carrier)
 end

@@ -1,5 +1,6 @@
 local _M = {}
 local k8s_suffix = os.getenv("fqdn_suffix")
+local posix = require 'posix'
 if (k8s_suffix == nil) then
   k8s_suffix = ""
 end
@@ -34,6 +35,8 @@ function _M.RegisterUser()
 
   local client = GenericObjectPool:connection(UserServiceClient, "user-service" .. k8s_suffix , 9090)
 
+  io.write(string.format("shiftlog luanginx RegisterUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   client:RegisterUser(req_id, post.first_name, post.last_name,
       post.username, post.password, carrier)
   GenericObjectPool:returnConnection(client)

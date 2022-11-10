@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -311,6 +312,8 @@ local UserReviewServiceClient = __TObject.new(__TClient, {
 })
 
 function UserReviewServiceClient:UploadUserReview(req_id, user_id, review_id, timestamp, carrier)
+  io.write(string.format("shiftlog luasend UserReviewServiceClient UploadUserReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUserReview(req_id, user_id, review_id, timestamp, carrier)
   self:recv_UploadUserReview(req_id, user_id, review_id, timestamp, carrier)
 end
@@ -345,6 +348,8 @@ function UserReviewServiceClient:recv_UploadUserReview(req_id, user_id, review_i
 end
 
 function UserReviewServiceClient:ReadUserReviews(req_id, user_id, start, stop, carrier)
+  io.write(string.format("shiftlog luasend UserReviewServiceClient ReadUserReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadUserReviews(req_id, user_id, start, stop, carrier)
   return self:recv_ReadUserReviews(req_id, user_id, start, stop, carrier)
 end

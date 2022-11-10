@@ -6,6 +6,7 @@
 --
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -131,6 +132,8 @@ local TextServiceClient = __TObject.new(__TClient, {
 })
 
 function TextServiceClient:UploadText(req_id, text, carrier)
+  io.write(string.format("shiftlog luasend TextServiceClient UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadText(req_id, text, carrier)
   self:recv_UploadText(req_id, text, carrier)
 end

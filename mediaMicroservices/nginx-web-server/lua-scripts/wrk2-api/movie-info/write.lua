@@ -1,5 +1,6 @@
 local _M = {}
 local k8s_suffix = os.getenv("fqdn_suffix")
+local posix = require 'posix'
 if (k8s_suffix == nil) then
   k8s_suffix = ""
 end
@@ -53,6 +54,8 @@ function _M.WriteMovieInfo()
 
 
   local client = GenericObjectPool:connection(MovieInfoServiceClient, "movie-info-service" .. k8s_suffix , 9090)
+  io.write(string.format("shiftlog luanginx WriteMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   client:WriteMovieInfo(req_id, movie_info["movie_id"], movie_info["title"],
       casts, movie_info["plot_id"], movie_info["thumbnail_ids"],
       movie_info["photo_ids"], movie_info["video_ids"], tostring(movie_info["avg_rating"]),

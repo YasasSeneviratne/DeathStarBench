@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -311,6 +312,8 @@ local MovieReviewServiceClient = __TObject.new(__TClient, {
 })
 
 function MovieReviewServiceClient:UploadMovieReview(req_id, movie_id, review_id, timestamp, carrier)
+  io.write(string.format("shiftlog luasend MovieReviewServiceClient UploadMovieReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadMovieReview(req_id, movie_id, review_id, timestamp, carrier)
   self:recv_UploadMovieReview(req_id, movie_id, review_id, timestamp, carrier)
 end
@@ -345,6 +348,8 @@ function MovieReviewServiceClient:recv_UploadMovieReview(req_id, movie_id, revie
 end
 
 function MovieReviewServiceClient:ReadMovieReviews(req_id, movie_id, start, stop, carrier)
+  io.write(string.format("shiftlog luasend MovieReviewServiceClient ReadMovieReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadMovieReviews(req_id, movie_id, start, stop, carrier)
   return self:recv_ReadMovieReviews(req_id, movie_id, start, stop, carrier)
 end

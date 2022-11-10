@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -668,6 +669,8 @@ local UserServiceClient = __TObject.new(__TClient, {
 })
 
 function UserServiceClient:RegisterUser(req_id, first_name, last_name, username, password, carrier)
+  io.write(string.format("shiftlog luasend UserServiceClient RegisterUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_RegisterUser(req_id, first_name, last_name, username, password, carrier)
   self:recv_RegisterUser(req_id, first_name, last_name, username, password, carrier)
 end
@@ -703,6 +706,8 @@ function UserServiceClient:recv_RegisterUser(req_id, first_name, last_name, user
 end
 
 function UserServiceClient:RegisterUserWithId(req_id, first_name, last_name, username, password, user_id, carrier)
+  io.write(string.format("shiftlog luasend UserServiceClient RegisterUserWithId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_RegisterUserWithId(req_id, first_name, last_name, username, password, user_id, carrier)
   self:recv_RegisterUserWithId(req_id, first_name, last_name, username, password, user_id, carrier)
 end
@@ -739,6 +744,8 @@ function UserServiceClient:recv_RegisterUserWithId(req_id, first_name, last_name
 end
 
 function UserServiceClient:Login(req_id, username, password, carrier)
+  io.write(string.format("shiftlog luasend UserServiceClient Login %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_Login(req_id, username, password, carrier)
   return self:recv_Login(req_id, username, password, carrier)
 end
@@ -775,6 +782,8 @@ function UserServiceClient:recv_Login(req_id, username, password, carrier)
 end
 
 function UserServiceClient:UploadUserWithUserId(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasend UserServiceClient UploadUserWithUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUserWithUserId(req_id, user_id, carrier)
   self:recv_UploadUserWithUserId(req_id, user_id, carrier)
 end
@@ -807,6 +816,8 @@ function UserServiceClient:recv_UploadUserWithUserId(req_id, user_id, carrier)
 end
 
 function UserServiceClient:UploadUserWithUsername(req_id, username, carrier)
+  io.write(string.format("shiftlog luasend UserServiceClient UploadUserWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUserWithUsername(req_id, username, carrier)
   self:recv_UploadUserWithUsername(req_id, username, carrier)
 end

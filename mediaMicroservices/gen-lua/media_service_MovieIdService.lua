@@ -6,6 +6,7 @@
 --
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -262,6 +263,8 @@ local MovieIdServiceClient = __TObject.new(__TClient, {
 })
 
 function MovieIdServiceClient:UploadMovieId(req_id, title, rating, carrier)
+  io.write(string.format("shiftlog luasend MovieIdServiceClient UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadMovieId(req_id, title, rating, carrier)
   self:recv_UploadMovieId(req_id, title, rating, carrier)
 end

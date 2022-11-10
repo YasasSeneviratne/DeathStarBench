@@ -5,8 +5,8 @@
 -- @generated
 --
 
-
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -309,6 +309,9 @@ local CastInfoServiceClient = __TObject.new(__TClient, {
 })
 
 function CastInfoServiceClient:WriteCastInfo(req_id, cast_id, name, gender, intro, carrier)
+  io.write(string.format("shiftlog luasend CastInfoServiceClient WriteCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  --io.write("shiftlog luasend 1\n")
   self:send_WriteCastInfo(req_id, cast_id, name, gender, intro, carrier)
   self:recv_WriteCastInfo(req_id, cast_id, name, gender, intro, carrier)
 end
@@ -344,6 +347,9 @@ function CastInfoServiceClient:recv_WriteCastInfo(req_id, cast_id, name, gender,
 end
 
 function CastInfoServiceClient:ReadCastInfo(req_id, cast_ids, carrier)
+  io.write(string.format("shiftlog luasend CastInfoServiceClient ReadCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  --io.write("shiftlog luasend 1\n")
   self:send_ReadCastInfo(req_id, cast_ids, carrier)
   return self:recv_ReadCastInfo(req_id, cast_ids, carrier)
 end

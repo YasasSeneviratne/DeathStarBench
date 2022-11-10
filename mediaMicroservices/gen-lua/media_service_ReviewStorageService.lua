@@ -8,12 +8,16 @@
 
 require 'Thrift'
 require 'media_service_ttypes'
+require 'posix'
+
 
 ReviewStorageServiceClient = __TObject.new(__TClient, {
   __type = 'ReviewStorageServiceClient'
 })
 
 function ReviewStorageServiceClient:StoreReview(req_id, review, carrier)
+  io.write(string.format("shiftlog luasend ReviewStorageServiceClient StoreReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_StoreReview(req_id, review, carrier)
   self:recv_StoreReview(req_id, review, carrier)
 end
@@ -43,6 +47,8 @@ function ReviewStorageServiceClient:recv_StoreReview(req_id, review, carrier)
 end
 
 function ReviewStorageServiceClient:ReadReviews(req_id, review_ids, carrier)
+  io.write(string.format("shiftlog luasend ReviewStorageServiceClient ReadReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadReviews(req_id, review_ids, carrier)
   return self:recv_ReadReviews(req_id, review_ids, carrier)
 end

@@ -8,12 +8,15 @@
 
 require 'Thrift'
 require 'media_service_ttypes'
+require 'posix'
 
 ComposeReviewServiceClient = __TObject.new(__TClient, {
   __type = 'ComposeReviewServiceClient'
 })
 
 function ComposeReviewServiceClient:UploadText(req_id, text, carrier)
+  io.write(string.format("shiftlog luasend ComposeReviewServiceClient UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadText(req_id, text, carrier)
   self:recv_UploadText(req_id, text, carrier)
 end
@@ -43,6 +46,8 @@ function ComposeReviewServiceClient:recv_UploadText(req_id, text, carrier)
 end
 
 function ComposeReviewServiceClient:UploadRating(req_id, rating, carrier)
+  io.write(string.format("shiftlog luasend ComposeReviewServiceClient UploadRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadRating(req_id, rating, carrier)
   self:recv_UploadRating(req_id, rating, carrier)
 end
@@ -72,6 +77,8 @@ function ComposeReviewServiceClient:recv_UploadRating(req_id, rating, carrier)
 end
 
 function ComposeReviewServiceClient:UploadMovieId(req_id, movie_id, carrier)
+  io.write(string.format("shiftlog luasend ComposeReviewServiceClient UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadMovieId(req_id, movie_id, carrier)
   self:recv_UploadMovieId(req_id, movie_id, carrier)
 end
@@ -101,6 +108,8 @@ function ComposeReviewServiceClient:recv_UploadMovieId(req_id, movie_id, carrier
 end
 
 function ComposeReviewServiceClient:UploadUniqueId(req_id, unique_id, carrier)
+  io.write(string.format("shiftlog luasend ComposeReviewServiceClient UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUniqueId(req_id, unique_id, carrier)
   self:recv_UploadUniqueId(req_id, unique_id, carrier)
 end
@@ -130,6 +139,8 @@ function ComposeReviewServiceClient:recv_UploadUniqueId(req_id, unique_id, carri
 end
 
 function ComposeReviewServiceClient:UploadUserId(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasend ComposeReviewServiceClient UploadUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUserId(req_id, user_id, carrier)
   self:recv_UploadUserId(req_id, user_id, carrier)
 end

@@ -8,12 +8,16 @@
 
 require 'Thrift'
 require 'media_service_ttypes'
+require 'posix'
+
 
 RatingServiceClient = __TObject.new(__TClient, {
   __type = 'RatingServiceClient'
 })
 
 function RatingServiceClient:UploadRating(req_id, movie_id, rating, carrier)
+  io.write(string.format("shiftlog luasend RatingServiceClient UploadRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadRating(req_id, movie_id, rating, carrier)
   self:recv_UploadRating(req_id, movie_id, rating, carrier)
 end
