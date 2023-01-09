@@ -1426,6 +1426,10 @@ void UserServiceClient::RegisterUser(const int64_t req_id, const std::string& fi
   std::cout << "shiftlog send UserService RegisterUser "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_RegisterUser(req_id, first_name, last_name, username, password, carrier);
   recv_RegisterUser();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone UserService RegisterUser "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void UserServiceClient::send_RegisterUser(const int64_t req_id, const std::string& first_name, const std::string& last_name, const std::string& username, const std::string& password, const std::map<std::string, std::string> & carrier)
@@ -1491,6 +1495,10 @@ void UserServiceClient::RegisterUserWithId(const int64_t req_id, const std::stri
   std::cout << "shiftlog send UserService RegisterUserWithId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_RegisterUserWithId(req_id, first_name, last_name, username, password, user_id, carrier);
   recv_RegisterUserWithId();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone UserService RegisterUserWithId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void UserServiceClient::send_RegisterUserWithId(const int64_t req_id, const std::string& first_name, const std::string& last_name, const std::string& username, const std::string& password, const int64_t user_id, const std::map<std::string, std::string> & carrier)
@@ -1557,6 +1565,11 @@ void UserServiceClient::Login(std::string& _return, const int64_t req_id, const 
   std::cout << "shiftlog send UserService Login "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_Login(req_id, username, password, carrier);
   recv_Login(_return);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone UserService Login "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 void UserServiceClient::send_Login(const int64_t req_id, const std::string& username, const std::string& password, const std::map<std::string, std::string> & carrier)
@@ -1625,6 +1638,10 @@ void UserServiceClient::UploadUserWithUserId(const int64_t req_id, const int64_t
   std::cout << "shiftlog send UserService UploadUserWithUserId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadUserWithUserId(req_id, user_id, carrier);
   recv_UploadUserWithUserId();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone UserService UploadUserWithUserId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void UserServiceClient::send_UploadUserWithUserId(const int64_t req_id, const int64_t user_id, const std::map<std::string, std::string> & carrier)
@@ -1687,6 +1704,10 @@ void UserServiceClient::UploadUserWithUsername(const int64_t req_id, const std::
   std::cout << "shiftlog send UserService UploadUserWithUsername "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadUserWithUsername(req_id, username, carrier);
   recv_UploadUserWithUsername();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone UserService UploadUserWithUsername "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void UserServiceClient::send_UploadUserWithUsername(const int64_t req_id, const std::string& username, const std::map<std::string, std::string> & carrier)
@@ -1785,7 +1806,7 @@ void UserServiceProcessor::process_RegisterUser(int32_t seqid, ::apache::thrift:
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process UserService RegisterUser "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart UserService RegisterUser "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->RegisterUser(args.req_id, args.first_name, args.last_name, args.username, args.password, args.carrier);
   } catch (ServiceException &se) {
@@ -1795,7 +1816,10 @@ void UserServiceProcessor::process_RegisterUser(int32_t seqid, ::apache::thrift:
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "UserService.RegisterUser");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend UserService RegisterUser "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("RegisterUser", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1810,6 +1834,10 @@ void UserServiceProcessor::process_RegisterUser(int32_t seqid, ::apache::thrift:
     this->eventHandler_->preWrite(ctx, "UserService.RegisterUser");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend UserService RegisterUser "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("RegisterUser", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1846,7 +1874,7 @@ void UserServiceProcessor::process_RegisterUserWithId(int32_t seqid, ::apache::t
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process UserService RegisterUserWithId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart UserService RegisterUserWithId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->RegisterUserWithId(args.req_id, args.first_name, args.last_name, args.username, args.password, args.user_id, args.carrier);
   } catch (ServiceException &se) {
@@ -1856,7 +1884,10 @@ void UserServiceProcessor::process_RegisterUserWithId(int32_t seqid, ::apache::t
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "UserService.RegisterUserWithId");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend UserService RegisterUserWithId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("RegisterUserWithId", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1871,6 +1902,10 @@ void UserServiceProcessor::process_RegisterUserWithId(int32_t seqid, ::apache::t
     this->eventHandler_->preWrite(ctx, "UserService.RegisterUserWithId");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend UserService RegisterUserWithId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("RegisterUserWithId", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1907,7 +1942,7 @@ void UserServiceProcessor::process_Login(int32_t seqid, ::apache::thrift::protoc
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process UserService Login "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart UserService Login "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->Login(result.success, args.req_id, args.username, args.password, args.carrier);
     result.__isset.success = true;
@@ -1918,7 +1953,10 @@ void UserServiceProcessor::process_Login(int32_t seqid, ::apache::thrift::protoc
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "UserService.Login");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend UserService Login "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("Login", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1933,6 +1971,10 @@ void UserServiceProcessor::process_Login(int32_t seqid, ::apache::thrift::protoc
     this->eventHandler_->preWrite(ctx, "UserService.Login");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend UserService Login "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("Login", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1969,7 +2011,7 @@ void UserServiceProcessor::process_UploadUserWithUserId(int32_t seqid, ::apache:
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process UserService UploadUserWithUserId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart UserService UploadUserWithUserId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadUserWithUserId(args.req_id, args.user_id, args.carrier);
   } catch (ServiceException &se) {
@@ -1979,7 +2021,10 @@ void UserServiceProcessor::process_UploadUserWithUserId(int32_t seqid, ::apache:
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "UserService.UploadUserWithUserId");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend UserService UploadUserWithUserId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadUserWithUserId", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1994,6 +2039,10 @@ void UserServiceProcessor::process_UploadUserWithUserId(int32_t seqid, ::apache:
     this->eventHandler_->preWrite(ctx, "UserService.UploadUserWithUserId");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend UserService UploadUserWithUserId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadUserWithUserId", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -2030,7 +2079,7 @@ void UserServiceProcessor::process_UploadUserWithUsername(int32_t seqid, ::apach
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process UserService UploadUserWithUsername "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart UserService UploadUserWithUsername "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadUserWithUsername(args.req_id, args.username, args.carrier);
   } catch (ServiceException &se) {
@@ -2040,7 +2089,10 @@ void UserServiceProcessor::process_UploadUserWithUsername(int32_t seqid, ::apach
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "UserService.UploadUserWithUsername");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend UserService UploadUserWithUsername "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadUserWithUsername", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -2055,6 +2107,10 @@ void UserServiceProcessor::process_UploadUserWithUsername(int32_t seqid, ::apach
     this->eventHandler_->preWrite(ctx, "UserService.UploadUserWithUsername");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend UserService UploadUserWithUsername "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadUserWithUsername", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -2081,6 +2137,10 @@ void UserServiceConcurrentClient::RegisterUser(const int64_t req_id, const std::
   std::cout << "shiftlog sendcon UserService RegisterUser "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_RegisterUser(req_id, first_name, last_name, username, password, carrier);
   recv_RegisterUser(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone UserService RegisterUser "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t UserServiceConcurrentClient::send_RegisterUser(const int64_t req_id, const std::string& first_name, const std::string& last_name, const std::string& username, const std::string& password, const std::map<std::string, std::string> & carrier)
@@ -2172,6 +2232,10 @@ void UserServiceConcurrentClient::RegisterUserWithId(const int64_t req_id, const
   std::cout << "shiftlog sendcon UserService RegisterUserWithId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_RegisterUserWithId(req_id, first_name, last_name, username, password, user_id, carrier);
   recv_RegisterUserWithId(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone UserService RegisterUserWithId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t UserServiceConcurrentClient::send_RegisterUserWithId(const int64_t req_id, const std::string& first_name, const std::string& last_name, const std::string& username, const std::string& password, const int64_t user_id, const std::map<std::string, std::string> & carrier)
@@ -2264,6 +2328,11 @@ void UserServiceConcurrentClient::Login(std::string& _return, const int64_t req_
   std::cout << "shiftlog sendcon UserService Login "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_Login(req_id, username, password, carrier);
   recv_Login(_return, seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone UserService Login "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 int32_t UserServiceConcurrentClient::send_Login(const int64_t req_id, const std::string& username, const std::string& password, const std::map<std::string, std::string> & carrier)
@@ -2359,6 +2428,10 @@ void UserServiceConcurrentClient::UploadUserWithUserId(const int64_t req_id, con
   std::cout << "shiftlog sendcon UserService UploadUserWithUserId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadUserWithUserId(req_id, user_id, carrier);
   recv_UploadUserWithUserId(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone UserService UploadUserWithUserId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t UserServiceConcurrentClient::send_UploadUserWithUserId(const int64_t req_id, const int64_t user_id, const std::map<std::string, std::string> & carrier)
@@ -2447,6 +2520,10 @@ void UserServiceConcurrentClient::UploadUserWithUsername(const int64_t req_id, c
   std::cout << "shiftlog sendcon UserService UploadUserWithUsername "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadUserWithUsername(req_id, username, carrier);
   recv_UploadUserWithUsername(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone UserService UploadUserWithUsername "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t UserServiceConcurrentClient::send_UploadUserWithUsername(const int64_t req_id, const std::string& username, const std::map<std::string, std::string> & carrier)

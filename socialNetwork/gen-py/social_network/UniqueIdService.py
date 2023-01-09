@@ -38,6 +38,8 @@ class Client(Iface):
         self._seqid = 0
 
     def ComposeUniqueId(self, req_id, post_type, carrier):
+        sys.stdout.write("shiftlog python sendComposeUniqueId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -104,6 +106,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_ComposeUniqueId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ComposeUniqueId")
+        sys.exit("shiftlog exit")
         args = ComposeUniqueId_args()
         args.read(iprot)
         iprot.readMessageEnd()

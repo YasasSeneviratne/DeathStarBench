@@ -7,6 +7,7 @@
 
 
 require 'Thrift'
+require 'posix'
 require 'social_network_ttypes'
 
 UrlShortenServiceClient = __TObject.new(__TClient, {
@@ -14,8 +15,13 @@ UrlShortenServiceClient = __TObject.new(__TClient, {
 })
 
 function UrlShortenServiceClient:ComposeUrls(req_id, urls, carrier)
+  io.write(string.format("shiftlog luasend UrlShortenServiceClient ComposeUrls %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ComposeUrls(req_id, urls, carrier)
-  return self:recv_ComposeUrls(req_id, urls, carrier)
+  tmp = self:recv_ComposeUrls(req_id, urls, carrier)
+  io.write(string.format("shiftlog luasenddone UrlShortenServiceClient ComposeUrls %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function UrlShortenServiceClient:send_ComposeUrls(req_id, urls, carrier)
@@ -49,8 +55,13 @@ function UrlShortenServiceClient:recv_ComposeUrls(req_id, urls, carrier)
 end
 
 function UrlShortenServiceClient:GetExtendedUrls(req_id, shortened_urls, carrier)
+  io.write(string.format("shiftlog luasend UrlShortenServiceClient GetExtendedUrls %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_GetExtendedUrls(req_id, shortened_urls, carrier)
-  return self:recv_GetExtendedUrls(req_id, shortened_urls, carrier)
+  tmp = self:recv_GetExtendedUrls(req_id, shortened_urls, carrier)
+  io.write(string.format("shiftlog luasenddone MediaServiceClient ComposeMedia %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function UrlShortenServiceClient:send_GetExtendedUrls(req_id, shortened_urls, carrier)
@@ -116,6 +127,8 @@ function UrlShortenServiceProcessor:process_ComposeUrls(seqid, iprot, oprot, ser
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ComposeUrls_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UrlShortenServiceProcessor ComposeUrls %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ComposeUrls, self.handler, args.req_id, args.urls, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -125,6 +138,9 @@ function UrlShortenServiceProcessor:process_ComposeUrls(seqid, iprot, oprot, ser
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UrlShortenServiceProcessor ComposeUrls %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+
   oprot:writeMessageBegin('ComposeUrls', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -137,6 +153,8 @@ function UrlShortenServiceProcessor:process_GetExtendedUrls(seqid, iprot, oprot,
   args:read(iprot)
   iprot:readMessageEnd()
   local result = GetExtendedUrls_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UrlShortenServiceProcessor GetExtendedUrls %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.GetExtendedUrls, self.handler, args.req_id, args.shortened_urls, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -146,6 +164,8 @@ function UrlShortenServiceProcessor:process_GetExtendedUrls(seqid, iprot, oprot,
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UrlShortenServiceProcessor GetExtendedUrls %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('GetExtendedUrls', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

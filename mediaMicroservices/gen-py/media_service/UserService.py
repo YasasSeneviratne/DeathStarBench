@@ -86,7 +86,8 @@ class Client(Iface):
         self._seqid = 0
 
     def RegisterUser(self, req_id, first_name, last_name, username, password, carrier):
-        sys.stdout.write("shiftlog python RegisterUser")
+        sys.stdout.write("shiftlog python sendRegisterUser")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -129,7 +130,8 @@ class Client(Iface):
         return
 
     def RegisterUserWithId(self, req_id, first_name, last_name, username, password, user_id, carrier):
-        sys.stdout.write("shiftlog python RegisterUserWithId")
+        sys.stdout.write("shiftlog python sendRegisterUserWithId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -174,7 +176,8 @@ class Client(Iface):
         return
 
     def Login(self, req_id, username, password, carrier):
-        sys.stdout.write("shiftlog python Login")
+        sys.stdout.write("shiftlog python sendLogin")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -215,7 +218,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "Login failed: unknown result")
 
     def UploadUserWithUserId(self, req_id, user_id, carrier):
-        sys.stdout.write("shiftlog python UploadUserWithUserId")
+        sys.stdout.write("shiftlog python sendUploadUserWithUserId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -252,7 +256,8 @@ class Client(Iface):
         return
 
     def UploadUserWithUsername(self, req_id, username, carrier):
-        sys.stdout.write("shiftlog python UploadUserWithUsername")
+        sys.stdout.write("shiftlog python sendUploadUserWithUsername")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -321,6 +326,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_RegisterUser(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process RegisterUser")
+        sys.exit("shiftlog exit")
         args = RegisterUser_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -347,6 +354,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_RegisterUserWithId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process RegisterUserWithId")
+        sys.exit("shiftlog exit")
         args = RegisterUserWithId_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -373,6 +382,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_Login(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process Login")
+        sys.exit("shiftlog exit")
         args = Login_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -399,6 +410,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_UploadUserWithUserId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadUserWithUserId")
+        sys.exit("shiftlog exit")
         args = UploadUserWithUserId_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -425,6 +438,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_UploadUserWithUsername(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadUserWithUsername")
+        sys.exit("shiftlog exit")
         args = UploadUserWithUsername_args()
         args.read(iprot)
         iprot.readMessageEnd()

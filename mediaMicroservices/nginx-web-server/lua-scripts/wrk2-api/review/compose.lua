@@ -14,9 +14,11 @@ local function _UploadUserId(req_id, post, carrier)
   local UserServiceClient = require 'media_service_UserService'
   local user_client = GenericObjectPool:connection(
     UserServiceClient,"user-service" .. k8s_suffix,9090)
-  io.write(string.format("shiftlog luanginx _UploadUserId %d",req_id))
+  io.write(string.format("shiftlog luanginxstart _UploadUserId %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   user_client:UploadUserWithUsername(req_id, post.username, carrier)
+  io.write(string.format("shiftlog luanginxend _UploadUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   GenericObjectPool:returnConnection(user_client)
 end
 
@@ -25,9 +27,11 @@ local function _UploadText(req_id, post, carrier)
   local TextServiceClient = require 'media_service_TextService'
   local text_client = GenericObjectPool:connection(
     TextServiceClient,"text-service" .. k8s_suffix ,9090)
-  io.write(string.format("shiftlog luanginx _UploadText %d",req_id))
+  io.write(string.format("shiftlog luanginxstart _UploadText %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   text_client:UploadText(req_id, post.text, carrier)
+  io.write(string.format("shiftlog luanginxend _UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   GenericObjectPool:returnConnection(text_client)
 end
 
@@ -36,9 +40,11 @@ local function _UploadMovieId(req_id, post, carrier)
   local MovieIdServiceClient = require 'media_service_MovieIdService'
   local movie_id_client = GenericObjectPool:connection(
     MovieIdServiceClient,"movie-id-service" .. k8s_suffix ,9090)
-  io.write(string.format("shiftlog luanginx _UploadMovieId %d",req_id))
+  io.write(string.format("shiftlog luanginxstart _UploadMovieId %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   movie_id_client:UploadMovieId(req_id, post.title, tonumber(post.rating), carrier)
+  io.write(string.format("shiftlog luanginxend _UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   GenericObjectPool:returnConnection(movie_id_client)
 end
 
@@ -47,9 +53,11 @@ local function _UploadUniqueId(req_id, carrier)
   local UniqueIdServiceClient = require 'media_service_UniqueIdService'
   local unique_id_client = GenericObjectPool:connection(
     UniqueIdServiceClient,"unique-id-service" .. k8s_suffix ,9090)
-  io.write(string.format("shiftlog luanginx _UploadUniqueId %d",req_id))
+  io.write(string.format("shiftlog luanginxstart _UploadUniqueId %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   unique_id_client:UploadUniqueId(req_id, carrier)
+  io.write(string.format("shiftlog luanginxend _UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   GenericObjectPool:returnConnection(unique_id_client)
 end
 

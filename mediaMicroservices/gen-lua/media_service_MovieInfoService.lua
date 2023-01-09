@@ -527,6 +527,8 @@ function MovieInfoServiceClient:WriteMovieInfo(req_id, movie_id, title, casts, p
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_WriteMovieInfo(req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier)
   self:recv_WriteMovieInfo(req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier)
+  io.write(string.format("shiftlog luasenddone MovieInfoServiceClient WriteMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function MovieInfoServiceClient:send_WriteMovieInfo(req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier)
@@ -568,7 +570,10 @@ function MovieInfoServiceClient:ReadMovieInfo(req_id, movie_id, carrier)
   io.write(string.format("shiftlog luasend MovieInfoServiceClient ReadMovieInfo %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadMovieInfo(req_id, movie_id, carrier)
-  return self:recv_ReadMovieInfo(req_id, movie_id, carrier)
+  tmp = self:recv_ReadMovieInfo(req_id, movie_id, carrier)
+  io.write(string.format("shiftlog luasenddone MovieInfoServiceClient ReadMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function MovieInfoServiceClient:send_ReadMovieInfo(req_id, movie_id, carrier)
@@ -606,6 +611,8 @@ function MovieInfoServiceClient:UpdateRating(req_id, movie_id, sum_uncommitted_r
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UpdateRating(req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier)
   self:recv_UpdateRating(req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier)
+  io.write(string.format("shiftlog luasenddone MovieInfoServiceClient UpdateRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function MovieInfoServiceClient:send_UpdateRating(req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier)
@@ -670,6 +677,8 @@ function MovieInfoServiceProcessor:process_WriteMovieInfo(seqid, iprot, oprot, s
   args:read(iprot)
   iprot:readMessageEnd()
   local result = WriteMovieInfo_result:new{}
+  io.write(string.format("shiftlog luaprocessstart MovieInfoServiceProcessor WriteMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.WriteMovieInfo, self.handler, args.req_id, args.movie_id, args.title, args.casts, args.plot_id, args.thumbnail_ids, args.photo_ids, args.video_ids, args.avg_rating, args.num_rating, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -679,6 +688,8 @@ function MovieInfoServiceProcessor:process_WriteMovieInfo(seqid, iprot, oprot, s
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend MovieInfoServiceProcessor WriteMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('WriteMovieInfo', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -691,6 +702,8 @@ function MovieInfoServiceProcessor:process_ReadMovieInfo(seqid, iprot, oprot, se
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadMovieInfo_result:new{}
+  io.write(string.format("shiftlog luaprocessstart MovieInfoServiceProcessor ReadMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadMovieInfo, self.handler, args.req_id, args.movie_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -700,6 +713,8 @@ function MovieInfoServiceProcessor:process_ReadMovieInfo(seqid, iprot, oprot, se
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend MovieInfoServiceProcessor ReadMovieInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadMovieInfo', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

@@ -52,7 +52,8 @@ class Client(Iface):
         self._seqid = 0
 
     def UploadMovieReview(self, req_id, movie_id, review_id, timestamp, carrier):
-        sys.stdout.write("shiftlog python UploadMovieReview")
+        sys.stdout.write("shiftlog python sendUploadMovieReview")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -93,7 +94,8 @@ class Client(Iface):
         return
 
     def ReadMovieReviews(self, req_id, movie_id, start, stop, carrier):
-        sys.stdout.write("shiftlog python ReadMovieReviews")
+        sys.stdout.write("shiftlog python sendReadMovieReviews")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -165,6 +167,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_UploadMovieReview(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadMovieReview")
+        sys.exit("shiftlog exit")
         args = UploadMovieReview_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -191,6 +195,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadMovieReviews(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadMovieReviews")
+        sys.exit("shiftlog exit")
         args = ReadMovieReviews_args()
         args.read(iprot)
         iprot.readMessageEnd()

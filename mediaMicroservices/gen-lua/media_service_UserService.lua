@@ -673,6 +673,8 @@ function UserServiceClient:RegisterUser(req_id, first_name, last_name, username,
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_RegisterUser(req_id, first_name, last_name, username, password, carrier)
   self:recv_RegisterUser(req_id, first_name, last_name, username, password, carrier)
+  io.write(string.format("shiftlog luasenddone UserServiceClient RegisterUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function UserServiceClient:send_RegisterUser(req_id, first_name, last_name, username, password, carrier)
@@ -710,6 +712,8 @@ function UserServiceClient:RegisterUserWithId(req_id, first_name, last_name, use
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_RegisterUserWithId(req_id, first_name, last_name, username, password, user_id, carrier)
   self:recv_RegisterUserWithId(req_id, first_name, last_name, username, password, user_id, carrier)
+  io.write(string.format("shiftlog luasenddone UserServiceClient RegisterUserWithId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function UserServiceClient:send_RegisterUserWithId(req_id, first_name, last_name, username, password, user_id, carrier)
@@ -747,7 +751,10 @@ function UserServiceClient:Login(req_id, username, password, carrier)
   io.write(string.format("shiftlog luasend UserServiceClient Login %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_Login(req_id, username, password, carrier)
-  return self:recv_Login(req_id, username, password, carrier)
+  tmp = self:recv_Login(req_id, username, password, carrier)
+  io.write(string.format("shiftlog luasenddone UserServiceClient Login %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function UserServiceClient:send_Login(req_id, username, password, carrier)
@@ -786,6 +793,8 @@ function UserServiceClient:UploadUserWithUserId(req_id, user_id, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUserWithUserId(req_id, user_id, carrier)
   self:recv_UploadUserWithUserId(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasenddone UserServiceClient UploadUserWithUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function UserServiceClient:send_UploadUserWithUserId(req_id, user_id, carrier)
@@ -820,6 +829,8 @@ function UserServiceClient:UploadUserWithUsername(req_id, username, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUserWithUsername(req_id, username, carrier)
   self:recv_UploadUserWithUsername(req_id, username, carrier)
+  io.write(string.format("shiftlog luasenddone UserServiceClient UploadUserWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function UserServiceClient:send_UploadUserWithUsername(req_id, username, carrier)
@@ -884,6 +895,8 @@ function UserServiceProcessor:process_RegisterUser(seqid, iprot, oprot, server_c
   args:read(iprot)
   iprot:readMessageEnd()
   local result = RegisterUser_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserServiceProcessor RegisterUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.RegisterUser, self.handler, args.req_id, args.first_name, args.last_name, args.username, args.password, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -893,6 +906,8 @@ function UserServiceProcessor:process_RegisterUser(seqid, iprot, oprot, server_c
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserServiceProcessor RegisterUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('RegisterUser', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -905,6 +920,8 @@ function UserServiceProcessor:process_RegisterUserWithId(seqid, iprot, oprot, se
   args:read(iprot)
   iprot:readMessageEnd()
   local result = RegisterUserWithId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserServiceProcessor RegisterUserWithId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.RegisterUserWithId, self.handler, args.req_id, args.first_name, args.last_name, args.username, args.password, args.user_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -914,6 +931,8 @@ function UserServiceProcessor:process_RegisterUserWithId(seqid, iprot, oprot, se
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserServiceProcessor RegisterUserWithId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('RegisterUserWithId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -926,6 +945,8 @@ function UserServiceProcessor:process_Login(seqid, iprot, oprot, server_ctx)
   args:read(iprot)
   iprot:readMessageEnd()
   local result = Login_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserServiceProcessor Login %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.Login, self.handler, args.req_id, args.username, args.password, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -935,6 +956,8 @@ function UserServiceProcessor:process_Login(seqid, iprot, oprot, server_ctx)
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserServiceProcessor Login %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('Login', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -947,6 +970,8 @@ function UserServiceProcessor:process_UploadUserWithUserId(seqid, iprot, oprot, 
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadUserWithUserId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserServiceProcessor UploadUserWithUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadUserWithUserId, self.handler, args.req_id, args.user_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -956,6 +981,8 @@ function UserServiceProcessor:process_UploadUserWithUserId(seqid, iprot, oprot, 
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserServiceProcessor UploadUserWithUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadUserWithUserId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -968,6 +995,8 @@ function UserServiceProcessor:process_UploadUserWithUsername(seqid, iprot, oprot
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadUserWithUsername_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserServiceProcessor UploadUserWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadUserWithUsername, self.handler, args.req_id, args.username, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -977,6 +1006,8 @@ function UserServiceProcessor:process_UploadUserWithUsername(seqid, iprot, oprot
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserServiceProcessor UploadUserWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadUserWithUsername', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -212,8 +213,12 @@ local ComposePostServiceClient = __TObject.new(__TClient, {
 })
 
 function ComposePostServiceClient:ComposePost(req_id, username, user_id, text, media_ids, media_types, post_type, carrier)
+  io.write(string.format("shiftlog luasend ComposePostServiceClient ComposePost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ComposePost(req_id, username, user_id, text, media_ids, media_types, post_type, carrier)
   self:recv_ComposePost(req_id, username, user_id, text, media_ids, media_types, post_type, carrier)
+  io.write(string.format("shiftlog luasenddone ComposePostServiceClient ComposePost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function ComposePostServiceClient:send_ComposePost(req_id, username, user_id, text, media_ids, media_types, post_type, carrier)
@@ -278,6 +283,9 @@ function ComposePostServiceProcessor:process_ComposePost(seqid, iprot, oprot, se
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ComposePost_result:new{}
+  io.write(string.format("shiftlog luaprocessstart ComposePostServiceProcessor ComposePost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+
   local status, res = pcall(self.handler.ComposePost, self.handler, args.req_id, args.username, args.user_id, args.text, args.media_ids, args.media_types, args.post_type, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -287,6 +295,9 @@ function ComposePostServiceProcessor:process_ComposePost(seqid, iprot, oprot, se
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend ComposePostServiceProcessor ComposePost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  
   oprot:writeMessageBegin('ComposePost', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

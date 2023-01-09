@@ -558,6 +558,10 @@ void PlotServiceClient::WritePlot(const int64_t req_id, const int64_t plot_id, c
   std::cout << "shiftlog send PlotService WritePlot "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_WritePlot(req_id, plot_id, plot, carrier);
   recv_WritePlot();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone PlotService WritePlot "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void PlotServiceClient::send_WritePlot(const int64_t req_id, const int64_t plot_id, const std::string& plot, const std::map<std::string, std::string> & carrier)
@@ -621,6 +625,11 @@ void PlotServiceClient::ReadPlot(std::string& _return, const int64_t req_id, con
   std::cout << "shiftlog send PlotService ReadPlot "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_ReadPlot(req_id, plot_id, carrier);
   recv_ReadPlot(_return);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone PlotService ReadPlot "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 void PlotServiceClient::send_ReadPlot(const int64_t req_id, const int64_t plot_id, const std::map<std::string, std::string> & carrier)
@@ -724,7 +733,7 @@ void PlotServiceProcessor::process_WritePlot(int32_t seqid, ::apache::thrift::pr
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process PlotService WritePlot "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart PlotService WritePlot "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->WritePlot(args.req_id, args.plot_id, args.plot, args.carrier);
   } catch (ServiceException &se) {
@@ -734,7 +743,10 @@ void PlotServiceProcessor::process_WritePlot(int32_t seqid, ::apache::thrift::pr
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "PlotService.WritePlot");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend PlotService WritePlot "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("WritePlot", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -749,6 +761,10 @@ void PlotServiceProcessor::process_WritePlot(int32_t seqid, ::apache::thrift::pr
     this->eventHandler_->preWrite(ctx, "PlotService.WritePlot");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend PlotService WritePlot "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("WritePlot", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -785,7 +801,7 @@ void PlotServiceProcessor::process_ReadPlot(int32_t seqid, ::apache::thrift::pro
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process PlotService ReadPlot "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart PlotService ReadPlot "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->ReadPlot(result.success, args.req_id, args.plot_id, args.carrier);
     result.__isset.success = true;
@@ -796,7 +812,10 @@ void PlotServiceProcessor::process_ReadPlot(int32_t seqid, ::apache::thrift::pro
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "PlotService.ReadPlot");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend PlotService ReadPlot "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("ReadPlot", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -811,6 +830,10 @@ void PlotServiceProcessor::process_ReadPlot(int32_t seqid, ::apache::thrift::pro
     this->eventHandler_->preWrite(ctx, "PlotService.ReadPlot");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend PlotService ReadPlot "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("ReadPlot", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -837,6 +860,10 @@ void PlotServiceConcurrentClient::WritePlot(const int64_t req_id, const int64_t 
   std::cout << "shiftlog sendcon PlotService WritePlot "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_WritePlot(req_id, plot_id, plot, carrier);
   recv_WritePlot(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone PlotService WritePlot "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t PlotServiceConcurrentClient::send_WritePlot(const int64_t req_id, const int64_t plot_id, const std::string& plot, const std::map<std::string, std::string> & carrier)
@@ -926,6 +953,11 @@ void PlotServiceConcurrentClient::ReadPlot(std::string& _return, const int64_t r
   std::cout << "shiftlog sendcon PlotService ReadPlot "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_ReadPlot(req_id, plot_id, carrier);
   recv_ReadPlot(_return, seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone PlotService ReadPlot "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 int32_t PlotServiceConcurrentClient::send_ReadPlot(const int64_t req_id, const int64_t plot_id, const std::map<std::string, std::string> & carrier)

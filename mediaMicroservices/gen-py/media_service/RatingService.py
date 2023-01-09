@@ -39,7 +39,8 @@ class Client(Iface):
         self._seqid = 0
 
     def UploadRating(self, req_id, movie_id, rating, carrier):
-        sys.stdout.write("shiftlog python UploadRating")
+        sys.stdout.write("shiftlog python sendUploadRating")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -106,6 +107,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_UploadRating(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadRating")
+        sys.exit("shiftlog exit")
         args = UploadRating_args()
         args.read(iprot)
         iprot.readMessageEnd()

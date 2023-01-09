@@ -6,6 +6,7 @@
 --
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -866,8 +867,13 @@ local SocialGraphServiceClient = __TObject.new(__TClient, {
 })
 
 function SocialGraphServiceClient:GetFollowers(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasend SocialGraphServiceClient GetFollowers %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_GetFollowers(req_id, user_id, carrier)
-  return self:recv_GetFollowers(req_id, user_id, carrier)
+  tmp = self:recv_GetFollowers(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasenddone SocialGraphServiceClient GetFollowers %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function SocialGraphServiceClient:send_GetFollowers(req_id, user_id, carrier)
@@ -901,8 +907,13 @@ function SocialGraphServiceClient:recv_GetFollowers(req_id, user_id, carrier)
 end
 
 function SocialGraphServiceClient:GetFollowees(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasend SocialGraphServiceClient GetFollowees %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_GetFollowees(req_id, user_id, carrier)
-  return self:recv_GetFollowees(req_id, user_id, carrier)
+  tmp = self:recv_GetFollowees(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasenddone SocialGraphServiceClient GetFollowees %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function SocialGraphServiceClient:send_GetFollowees(req_id, user_id, carrier)
@@ -936,8 +947,12 @@ function SocialGraphServiceClient:recv_GetFollowees(req_id, user_id, carrier)
 end
 
 function SocialGraphServiceClient:Follow(req_id, user_id, followee_id, carrier)
+  io.write(string.format("shiftlog luasend SocialGraphServiceClient Follow %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_Follow(req_id, user_id, followee_id, carrier)
   self:recv_Follow(req_id, user_id, followee_id, carrier)
+  io.write(string.format("shiftlog luasenddone SocialGraphServiceClient Follow %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function SocialGraphServiceClient:send_Follow(req_id, user_id, followee_id, carrier)
@@ -969,8 +984,12 @@ function SocialGraphServiceClient:recv_Follow(req_id, user_id, followee_id, carr
 end
 
 function SocialGraphServiceClient:Unfollow(req_id, user_id, followee_id, carrier)
+  io.write(string.format("shiftlog luasend SocialGraphServiceClient Unfollow %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_Unfollow(req_id, user_id, followee_id, carrier)
   self:recv_Unfollow(req_id, user_id, followee_id, carrier)
+  io.write(string.format("shiftlog luasenddone SocialGraphServiceClient Unfollow %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function SocialGraphServiceClient:send_Unfollow(req_id, user_id, followee_id, carrier)
@@ -1002,8 +1021,12 @@ function SocialGraphServiceClient:recv_Unfollow(req_id, user_id, followee_id, ca
 end
 
 function SocialGraphServiceClient:FollowWithUsername(req_id, user_usernmae, followee_username, carrier)
+  io.write(string.format("shiftlog luasend SocialGraphServiceClient FollowWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_FollowWithUsername(req_id, user_usernmae, followee_username, carrier)
   self:recv_FollowWithUsername(req_id, user_usernmae, followee_username, carrier)
+  io.write(string.format("shiftlog luasenddone SocialGraphServiceClient FollowWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function SocialGraphServiceClient:send_FollowWithUsername(req_id, user_usernmae, followee_username, carrier)
@@ -1035,8 +1058,12 @@ function SocialGraphServiceClient:recv_FollowWithUsername(req_id, user_usernmae,
 end
 
 function SocialGraphServiceClient:UnfollowWithUsername(req_id, user_usernmae, followee_username, carrier)
+  io.write(string.format("shiftlog luasend SocialGraphServiceClient UnfollowWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UnfollowWithUsername(req_id, user_usernmae, followee_username, carrier)
   self:recv_UnfollowWithUsername(req_id, user_usernmae, followee_username, carrier)
+  io.write(string.format("shiftlog luasenddone SocialGraphServiceClient UnfollowWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function SocialGraphServiceClient:send_UnfollowWithUsername(req_id, user_usernmae, followee_username, carrier)
@@ -1068,8 +1095,12 @@ function SocialGraphServiceClient:recv_UnfollowWithUsername(req_id, user_usernma
 end
 
 function SocialGraphServiceClient:InsertUser(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasend SocialGraphServiceClient InsertUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_InsertUser(req_id, user_id, carrier)
   self:recv_InsertUser(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasenddone SocialGraphServiceClient InsertUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function SocialGraphServiceClient:send_InsertUser(req_id, user_id, carrier)
@@ -1132,6 +1163,8 @@ function SocialGraphServiceProcessor:process_GetFollowers(seqid, iprot, oprot, s
   args:read(iprot)
   iprot:readMessageEnd()
   local result = GetFollowers_result:new{}
+  io.write(string.format("shiftlog luaprocessstart SocialGraphServiceProcessor GetFollowers %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.GetFollowers, self.handler, args.req_id, args.user_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -1141,6 +1174,8 @@ function SocialGraphServiceProcessor:process_GetFollowers(seqid, iprot, oprot, s
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend SocialGraphServiceProcessor GetFollowers %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('GetFollowers', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -1153,6 +1188,8 @@ function SocialGraphServiceProcessor:process_GetFollowees(seqid, iprot, oprot, s
   args:read(iprot)
   iprot:readMessageEnd()
   local result = GetFollowees_result:new{}
+  io.write(string.format("shiftlog luaprocessstart SocialGraphServiceProcessor GetFollowees %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.GetFollowees, self.handler, args.req_id, args.user_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -1162,6 +1199,8 @@ function SocialGraphServiceProcessor:process_GetFollowees(seqid, iprot, oprot, s
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend SocialGraphServiceProcessor GetFollowees %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('GetFollowees', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -1174,6 +1213,8 @@ function SocialGraphServiceProcessor:process_Follow(seqid, iprot, oprot, server_
   args:read(iprot)
   iprot:readMessageEnd()
   local result = Follow_result:new{}
+  io.write(string.format("shiftlog luaprocessstart SocialGraphServiceProcessor Follow %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.Follow, self.handler, args.req_id, args.user_id, args.followee_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -1183,6 +1224,8 @@ function SocialGraphServiceProcessor:process_Follow(seqid, iprot, oprot, server_
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend SocialGraphServiceProcessor Follow %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('Follow', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -1195,6 +1238,8 @@ function SocialGraphServiceProcessor:process_Unfollow(seqid, iprot, oprot, serve
   args:read(iprot)
   iprot:readMessageEnd()
   local result = Unfollow_result:new{}
+  io.write(string.format("shiftlog luaprocessstart SocialGraphServiceProcessor Unfollow %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.Unfollow, self.handler, args.req_id, args.user_id, args.followee_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -1204,6 +1249,8 @@ function SocialGraphServiceProcessor:process_Unfollow(seqid, iprot, oprot, serve
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend SocialGraphServiceProcessor Unfollow %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('Unfollow', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -1216,6 +1263,8 @@ function SocialGraphServiceProcessor:process_FollowWithUsername(seqid, iprot, op
   args:read(iprot)
   iprot:readMessageEnd()
   local result = FollowWithUsername_result:new{}
+  io.write(string.format("shiftlog luaprocessstart SocialGraphServiceProcessor FollowWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.FollowWithUsername, self.handler, args.req_id, args.user_usernmae, args.followee_username, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -1225,6 +1274,8 @@ function SocialGraphServiceProcessor:process_FollowWithUsername(seqid, iprot, op
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend SocialGraphServiceProcessor FollowWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('FollowWithUsername', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -1237,6 +1288,8 @@ function SocialGraphServiceProcessor:process_UnfollowWithUsername(seqid, iprot, 
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UnfollowWithUsername_result:new{}
+  io.write(string.format("shiftlog luaprocessstart SocialGraphServiceProcessor UnfollowWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UnfollowWithUsername, self.handler, args.req_id, args.user_usernmae, args.followee_username, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -1246,6 +1299,8 @@ function SocialGraphServiceProcessor:process_UnfollowWithUsername(seqid, iprot, 
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend SocialGraphServiceProcessor UnfollowWithUsername %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UnfollowWithUsername', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -1258,6 +1313,8 @@ function SocialGraphServiceProcessor:process_InsertUser(seqid, iprot, oprot, ser
   args:read(iprot)
   iprot:readMessageEnd()
   local result = InsertUser_result:new{}
+  io.write(string.format("shiftlog luaprocessstart SocialGraphServiceProcessor InsertUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.InsertUser, self.handler, args.req_id, args.user_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -1267,6 +1324,8 @@ function SocialGraphServiceProcessor:process_InsertUser(seqid, iprot, oprot, ser
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend SocialGraphServiceProcessor InsertUser %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('InsertUser', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

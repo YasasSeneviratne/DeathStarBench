@@ -125,6 +125,8 @@ function UniqueIdServiceClient:UploadUniqueId(req_id, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUniqueId(req_id, carrier)
   self:recv_UploadUniqueId(req_id, carrier)
+  io.write(string.format("shiftlog luasenddone UniqueIdServiceClient UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function UniqueIdServiceClient:send_UploadUniqueId(req_id, carrier)
@@ -186,6 +188,8 @@ function UniqueIdServiceProcessor:process_UploadUniqueId(seqid, iprot, oprot, se
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadUniqueId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UniqueIdServiceProcessor UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadUniqueId, self.handler, args.req_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -195,6 +199,8 @@ function UniqueIdServiceProcessor:process_UploadUniqueId(seqid, iprot, oprot, se
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UniqueIdServiceProcessor UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadUniqueId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

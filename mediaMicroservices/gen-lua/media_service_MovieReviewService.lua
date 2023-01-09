@@ -316,6 +316,8 @@ function MovieReviewServiceClient:UploadMovieReview(req_id, movie_id, review_id,
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadMovieReview(req_id, movie_id, review_id, timestamp, carrier)
   self:recv_UploadMovieReview(req_id, movie_id, review_id, timestamp, carrier)
+  io.write(string.format("shiftlog luasenddone MovieReviewServiceClient UploadMovieReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function MovieReviewServiceClient:send_UploadMovieReview(req_id, movie_id, review_id, timestamp, carrier)
@@ -352,6 +354,8 @@ function MovieReviewServiceClient:ReadMovieReviews(req_id, movie_id, start, stop
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadMovieReviews(req_id, movie_id, start, stop, carrier)
   return self:recv_ReadMovieReviews(req_id, movie_id, start, stop, carrier)
+  io.write(string.format("shiftlog luasenddone MovieReviewServiceClient ReadMovieReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function MovieReviewServiceClient:send_ReadMovieReviews(req_id, movie_id, start, stop, carrier)
@@ -419,6 +423,8 @@ function MovieReviewServiceProcessor:process_UploadMovieReview(seqid, iprot, opr
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadMovieReview_result:new{}
+  io.write(string.format("shiftlog luaprocessstart MovieReviewServiceProcessor UploadMovieReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadMovieReview, self.handler, args.req_id, args.movie_id, args.review_id, args.timestamp, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -428,6 +434,8 @@ function MovieReviewServiceProcessor:process_UploadMovieReview(seqid, iprot, opr
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend MovieReviewServiceProcessor UploadMovieReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadMovieReview', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -440,6 +448,8 @@ function MovieReviewServiceProcessor:process_ReadMovieReviews(seqid, iprot, opro
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadMovieReviews_result:new{}
+  io.write(string.format("shiftlog luaprocessstart MovieReviewServiceProcessor ReadMovieReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadMovieReviews, self.handler, args.req_id, args.movie_id, args.start, args.stop, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -449,6 +459,8 @@ function MovieReviewServiceProcessor:process_ReadMovieReviews(seqid, iprot, opro
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend MovieReviewServiceProcessor ReadMovieReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadMovieReviews', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

@@ -268,6 +268,8 @@ function PlotServiceClient:WritePlot(req_id, plot_id, plot, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_WritePlot(req_id, plot_id, plot, carrier)
   self:recv_WritePlot(req_id, plot_id, plot, carrier)
+  io.write(string.format("shiftlog luasenddone PlotServiceClient WritePlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function PlotServiceClient:send_WritePlot(req_id, plot_id, plot, carrier)
@@ -302,7 +304,10 @@ function PlotServiceClient:ReadPlot(req_id, plot_id, carrier)
   io.write(string.format("shiftlog luasend PlotServiceClient ReadPlot %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadPlot(req_id, plot_id, carrier)
-  return self:recv_ReadPlot(req_id, plot_id, carrier)
+  tmp = self:recv_ReadPlot(req_id, plot_id, carrier)
+  io.write(string.format("shiftlog luasenddone PlotServiceClient ReadPlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function PlotServiceClient:send_ReadPlot(req_id, plot_id, carrier)
@@ -368,6 +373,8 @@ function PlotServiceProcessor:process_WritePlot(seqid, iprot, oprot, server_ctx)
   args:read(iprot)
   iprot:readMessageEnd()
   local result = WritePlot_result:new{}
+  io.write(string.format("shiftlog luaprocessstart PlotServiceProcessor WritePlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.WritePlot, self.handler, args.req_id, args.plot_id, args.plot, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -377,6 +384,8 @@ function PlotServiceProcessor:process_WritePlot(seqid, iprot, oprot, server_ctx)
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend PlotServiceProcessor WritePlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('WritePlot', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -389,6 +398,8 @@ function PlotServiceProcessor:process_ReadPlot(seqid, iprot, oprot, server_ctx)
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadPlot_result:new{}
+  io.write(string.format("shiftlog luaprocessstart PlotServiceProcessor ReadPlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadPlot, self.handler, args.req_id, args.plot_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -398,6 +409,8 @@ function PlotServiceProcessor:process_ReadPlot(seqid, iprot, oprot, server_ctx)
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend PlotServiceProcessor ReadPlot %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadPlot', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

@@ -7,6 +7,7 @@
 
 
 require 'Thrift'
+require 'posix'
 require 'social_network_ttypes'
 
 PostStorageServiceClient = __TObject.new(__TClient, {
@@ -14,8 +15,12 @@ PostStorageServiceClient = __TObject.new(__TClient, {
 })
 
 function PostStorageServiceClient:StorePost(req_id, post, carrier)
+  io.write(string.format("shiftlog luasend PostStorageServiceClient StorePost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_StorePost(req_id, post, carrier)
   self:recv_StorePost(req_id, post, carrier)
+  io.write(string.format("shiftlog luasenddone PostStorageServiceClient StorePost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function PostStorageServiceClient:send_StorePost(req_id, post, carrier)
@@ -43,8 +48,13 @@ function PostStorageServiceClient:recv_StorePost(req_id, post, carrier)
 end
 
 function PostStorageServiceClient:ReadPost(req_id, post_id, carrier)
+  io.write(string.format("shiftlog luasend PostStorageServiceClient ReadPost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadPost(req_id, post_id, carrier)
-  return self:recv_ReadPost(req_id, post_id, carrier)
+  tmp = self:recv_ReadPost(req_id, post_id, carrier)
+  io.write(string.format("shiftlog luasenddone PostStorageServiceClient ReadPost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function PostStorageServiceClient:send_ReadPost(req_id, post_id, carrier)
@@ -78,8 +88,13 @@ function PostStorageServiceClient:recv_ReadPost(req_id, post_id, carrier)
 end
 
 function PostStorageServiceClient:ReadPosts(req_id, post_ids, carrier)
+  io.write(string.format("shiftlog luasend PostStorageServiceClient ReadPosts %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadPosts(req_id, post_ids, carrier)
-  return self:recv_ReadPosts(req_id, post_ids, carrier)
+  tmp =  self:recv_ReadPosts(req_id, post_ids, carrier)
+  io.write(string.format("shiftlog luasenddone PostStorageServiceClient:ReadPosts %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function PostStorageServiceClient:send_ReadPosts(req_id, post_ids, carrier)
@@ -145,6 +160,8 @@ function PostStorageServiceProcessor:process_StorePost(seqid, iprot, oprot, serv
   args:read(iprot)
   iprot:readMessageEnd()
   local result = StorePost_result:new{}
+  io.write(string.format("shiftlog luaprocessstart PostStorageServiceProcessor StorePost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.StorePost, self.handler, args.req_id, args.post, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -154,6 +171,8 @@ function PostStorageServiceProcessor:process_StorePost(seqid, iprot, oprot, serv
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend PostStorageServiceProcessor StorePost %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('StorePost', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -187,6 +206,8 @@ function PostStorageServiceProcessor:process_ReadPosts(seqid, iprot, oprot, serv
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadPosts_result:new{}
+  io.write(string.format("shiftlog luaprocessstart PostStorageServiceProcessor ReadPosts %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadPosts, self.handler, args.req_id, args.post_ids, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -196,6 +217,8 @@ function PostStorageServiceProcessor:process_ReadPosts(seqid, iprot, oprot, serv
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend PostStorageServiceProcessor ReadPosts %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadPosts', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

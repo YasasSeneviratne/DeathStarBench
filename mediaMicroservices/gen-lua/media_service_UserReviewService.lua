@@ -316,6 +316,8 @@ function UserReviewServiceClient:UploadUserReview(req_id, user_id, review_id, ti
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUserReview(req_id, user_id, review_id, timestamp, carrier)
   self:recv_UploadUserReview(req_id, user_id, review_id, timestamp, carrier)
+  io.write(string.format("shiftlog luasenddone UserReviewServiceClient UploadUserReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function UserReviewServiceClient:send_UploadUserReview(req_id, user_id, review_id, timestamp, carrier)
@@ -351,7 +353,10 @@ function UserReviewServiceClient:ReadUserReviews(req_id, user_id, start, stop, c
   io.write(string.format("shiftlog luasend UserReviewServiceClient ReadUserReviews %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadUserReviews(req_id, user_id, start, stop, carrier)
-  return self:recv_ReadUserReviews(req_id, user_id, start, stop, carrier)
+  tmp = self:recv_ReadUserReviews(req_id, user_id, start, stop, carrier)
+  io.write(string.format("shiftlog luasenddone UserReviewServiceClient ReadUserReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function UserReviewServiceClient:send_ReadUserReviews(req_id, user_id, start, stop, carrier)
@@ -419,6 +424,8 @@ function UserReviewServiceProcessor:process_UploadUserReview(seqid, iprot, oprot
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadUserReview_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserReviewServiceProcessor UploadUserReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadUserReview, self.handler, args.req_id, args.user_id, args.review_id, args.timestamp, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -428,6 +435,8 @@ function UserReviewServiceProcessor:process_UploadUserReview(seqid, iprot, oprot
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserReviewServiceProcessor UploadUserReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadUserReview', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -440,6 +449,8 @@ function UserReviewServiceProcessor:process_ReadUserReviews(seqid, iprot, oprot,
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadUserReviews_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserReviewServiceProcessor ReadUserReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadUserReviews, self.handler, args.req_id, args.user_id, args.start, args.stop, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -449,6 +460,8 @@ function UserReviewServiceProcessor:process_ReadUserReviews(seqid, iprot, oprot,
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserReviewServiceProcessor ReadUserReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadUserReviews', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

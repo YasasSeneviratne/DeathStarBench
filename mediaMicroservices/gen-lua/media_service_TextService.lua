@@ -136,6 +136,8 @@ function TextServiceClient:UploadText(req_id, text, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadText(req_id, text, carrier)
   self:recv_UploadText(req_id, text, carrier)
+  io.write(string.format("shiftlog luasenddone TextServiceClient UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function TextServiceClient:send_UploadText(req_id, text, carrier)
@@ -195,6 +197,8 @@ function TextServiceProcessor:process_UploadText(seqid, iprot, oprot, server_ctx
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadText_result:new{}
+  io.write(string.format("shiftlog luaprocessstart TextServiceProcessor UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadText, self.handler, args.req_id, args.text, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -204,6 +208,8 @@ function TextServiceProcessor:process_UploadText(seqid, iprot, oprot, server_ctx
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend TextServiceProcessor UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadText', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

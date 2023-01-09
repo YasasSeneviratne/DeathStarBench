@@ -254,6 +254,10 @@ void UniqueIdServiceClient::UploadUniqueId(const int64_t req_id, const std::map<
   std::cout << "shiftlog send UniqueIdService UploadUniqueId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadUniqueId(req_id, carrier);
   recv_UploadUniqueId();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone UniqueIdService UploadUniqueId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void UniqueIdServiceClient::send_UploadUniqueId(const int64_t req_id, const std::map<std::string, std::string> & carrier)
@@ -351,7 +355,7 @@ void UniqueIdServiceProcessor::process_UploadUniqueId(int32_t seqid, ::apache::t
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process UniqueIdService UploadUniqueId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart UniqueIdService UploadUniqueId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadUniqueId(args.req_id, args.carrier);
   } catch (ServiceException &se) {
@@ -361,7 +365,10 @@ void UniqueIdServiceProcessor::process_UploadUniqueId(int32_t seqid, ::apache::t
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "UniqueIdService.UploadUniqueId");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend UniqueIdService UploadUniqueId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadUniqueId", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -376,6 +383,10 @@ void UniqueIdServiceProcessor::process_UploadUniqueId(int32_t seqid, ::apache::t
     this->eventHandler_->preWrite(ctx, "UniqueIdService.UploadUniqueId");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend UniqueIdService UploadUniqueId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadUniqueId", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -402,6 +413,10 @@ void UniqueIdServiceConcurrentClient::UploadUniqueId(const int64_t req_id, const
   std::cout << "shiftlog sendcon UniqueIdService UploadUniqueId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadUniqueId(req_id, carrier);
   recv_UploadUniqueId(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone UniqueIdService UploadUniqueId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t UniqueIdServiceConcurrentClient::send_UploadUniqueId(const int64_t req_id, const std::map<std::string, std::string> & carrier)

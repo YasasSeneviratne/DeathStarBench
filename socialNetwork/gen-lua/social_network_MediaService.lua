@@ -7,6 +7,7 @@
 
 
 require 'Thrift'
+require 'posix'
 require 'social_network_ttypes'
 
 MediaServiceClient = __TObject.new(__TClient, {
@@ -14,8 +15,13 @@ MediaServiceClient = __TObject.new(__TClient, {
 })
 
 function MediaServiceClient:ComposeMedia(req_id, media_types, media_ids, carrier)
+  io.write(string.format("shiftlog luasend MediaServiceClient ComposeMedia %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ComposeMedia(req_id, media_types, media_ids, carrier)
-  return self:recv_ComposeMedia(req_id, media_types, media_ids, carrier)
+  tmp = self:recv_ComposeMedia(req_id, media_types, media_ids, carrier)
+  io.write(string.format("shiftlog luasenddone MediaServiceClient ComposeMedia %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function MediaServiceClient:send_ComposeMedia(req_id, media_types, media_ids, carrier)
@@ -82,6 +88,8 @@ function MediaServiceProcessor:process_ComposeMedia(seqid, iprot, oprot, server_
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ComposeMedia_result:new{}
+  io.write(string.format("shiftlog luaprocessstart MediaServiceProcessor ComposeMedia%d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ComposeMedia, self.handler, args.req_id, args.media_types, args.media_ids, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -91,6 +99,8 @@ function MediaServiceProcessor:process_ComposeMedia(seqid, iprot, oprot, server_
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend MediaServiceProcessor ComposeMedia%d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ComposeMedia', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

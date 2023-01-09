@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -311,8 +312,12 @@ local UserTimelineServiceClient = __TObject.new(__TClient, {
 })
 
 function UserTimelineServiceClient:WriteUserTimeline(req_id, post_id, user_id, timestamp, carrier)
+  io.write(string.format("shiftlog luasend UserTimelineServiceClient WriteUserTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_WriteUserTimeline(req_id, post_id, user_id, timestamp, carrier)
   self:recv_WriteUserTimeline(req_id, post_id, user_id, timestamp, carrier)
+  io.write(string.format("shiftlog luasenddone UserTimelineServiceClient WriteUserTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function UserTimelineServiceClient:send_WriteUserTimeline(req_id, post_id, user_id, timestamp, carrier)
@@ -345,8 +350,13 @@ function UserTimelineServiceClient:recv_WriteUserTimeline(req_id, post_id, user_
 end
 
 function UserTimelineServiceClient:ReadUserTimeline(req_id, user_id, start, stop, carrier)
+  io.write(string.format("shiftlog luasend UserTimelineServiceClient ReadUserTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadUserTimeline(req_id, user_id, start, stop, carrier)
-  return self:recv_ReadUserTimeline(req_id, user_id, start, stop, carrier)
+  tmp = self:recv_ReadUserTimeline(req_id, user_id, start, stop, carrier)
+  io.write(string.format("shiftlog luasenddone UserTimelineServiceClient ReadUserTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function UserTimelineServiceClient:send_ReadUserTimeline(req_id, user_id, start, stop, carrier)
@@ -414,6 +424,8 @@ function UserTimelineServiceProcessor:process_WriteUserTimeline(seqid, iprot, op
   args:read(iprot)
   iprot:readMessageEnd()
   local result = WriteUserTimeline_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserTimelineServiceProcessor WriteUserTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.WriteUserTimeline, self.handler, args.req_id, args.post_id, args.user_id, args.timestamp, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -423,6 +435,8 @@ function UserTimelineServiceProcessor:process_WriteUserTimeline(seqid, iprot, op
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserTimelineServiceProcessor WriteUserTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('WriteUserTimeline', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -435,6 +449,8 @@ function UserTimelineServiceProcessor:process_ReadUserTimeline(seqid, iprot, opr
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadUserTimeline_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserTimelineServiceProcessor ReadUserTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadUserTimeline, self.handler, args.req_id, args.user_id, args.start, args.stop, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -444,6 +460,8 @@ function UserTimelineServiceProcessor:process_ReadUserTimeline(seqid, iprot, opr
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserTimelineServiceProcessor ReadUserTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadUserTimeline', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

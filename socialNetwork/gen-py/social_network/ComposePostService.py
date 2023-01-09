@@ -43,6 +43,8 @@ class Client(Iface):
         self._seqid = 0
 
     def ComposePost(self, req_id, username, user_id, text, media_ids, media_types, post_type, carrier):
+        sys.stdout.write("shiftlog python sendComposePost")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -117,6 +119,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_ComposePost(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ComposePost")
+        sys.exit("shiftlog exit")
         args = ComposePost_args()
         args.read(iprot)
         iprot.readMessageEnd()

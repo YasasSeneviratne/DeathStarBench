@@ -33,9 +33,11 @@ function _M.RegisterMovie()
   end
 
   local client = GenericObjectPool:connection(MovieIdServiceClient,"movie-id-service" .. k8s_suffix ,9090)
-  io.write(string.format("shiftlog luanginx RegisterMovieId %d",req_id))
+  io.write(string.format("shiftlog luanginxstart RegisterMovieId %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   client:RegisterMovieId(req_id, post.title, tostring(post.movie_id), carrier)
+  io.write(string.format("shiftlog luanginxend RegisterMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   GenericObjectPool:returnConnection(client)
 
   span:finish()

@@ -48,7 +48,8 @@ class Client(Iface):
         self._seqid = 0
 
     def StoreReview(self, req_id, review, carrier):
-        sys.stdout.write("shiftlog python StoreReview")
+        sys.stdout.write("shiftlog python sendStoreReview")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -85,7 +86,8 @@ class Client(Iface):
         return
 
     def ReadReviews(self, req_id, review_ids, carrier):
-        sys.stdout.write("shiftlog python ReadReviews")
+        sys.stdout.write("shiftlog python sendReadReviews")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -153,6 +155,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_StoreReview(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process StoreReview")
+        sys.exit("shiftlog exit")
         args = StoreReview_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -179,6 +183,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadReviews(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadReviews")
+        sys.exit("shiftlog exit")
         args = ReadReviews_args()
         args.read(iprot)
         iprot.readMessageEnd()

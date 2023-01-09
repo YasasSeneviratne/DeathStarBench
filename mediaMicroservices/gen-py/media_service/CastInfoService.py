@@ -51,7 +51,8 @@ class Client(Iface):
         self._seqid = 0
 
     def WriteCastInfo(self, req_id, cast_info_id, name, gender, intro, carrier):
-        sys.stdout.write("shiftlog python WriteCastInfo")
+        sys.stdout.write("shiftlog python sendWriteCastInfo")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -94,7 +95,8 @@ class Client(Iface):
         return
 
     def ReadCastInfo(self, req_id, cast_ids, carrier):
-        sys.stdout.write("shiftlog python ReadCastInfo")
+        sys.stdout.write("shiftlog python sendReadCastInfo")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -162,6 +164,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_WriteCastInfo(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process WriteCastInfo")
+        sys.exit("shiftlog exit")
         args = WriteCastInfo_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -188,6 +192,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadCastInfo(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadCastInfo")
+        sys.exit("shiftlog exit")
         args = ReadCastInfo_args()
         args.read(iprot)
         iprot.readMessageEnd()

@@ -68,7 +68,8 @@ class Client(Iface):
         self._seqid = 0
 
     def WriteMovieInfo(self, req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier):
-        sys.stdout.write("shiftlog python WriteMovieInfo")
+        sys.stdout.write("shiftlog python sendWriteMovieInfo")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -121,7 +122,8 @@ class Client(Iface):
         return
 
     def ReadMovieInfo(self, req_id, movie_id, carrier):
-        sys.stdout.write("shiftlog python ReadMovieInfo")
+        sys.stdout.write("shiftlog python sendReadMovieInfo")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -160,7 +162,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "ReadMovieInfo failed: unknown result")
 
     def UpdateRating(self, req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier):
-        sys.stdout.write("shiftlog python UpdateRating")
+        sys.stdout.write("shiftlog python sendUpdateRating")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -231,6 +234,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_WriteMovieInfo(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process WriteMovieInfo")
+        sys.exit("shiftlog exit")
         args = WriteMovieInfo_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -257,6 +262,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadMovieInfo(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadMovieInfo")
+        sys.exit("shiftlog exit")
         args = ReadMovieInfo_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -283,6 +290,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_UpdateRating(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UpdateRating")
+        sys.exit("shiftlog exit")
         args = UpdateRating_args()
         args.read(iprot)
         iprot.readMessageEnd()

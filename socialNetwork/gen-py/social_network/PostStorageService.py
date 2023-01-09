@@ -58,6 +58,8 @@ class Client(Iface):
         self._seqid = 0
 
     def StorePost(self, req_id, post, carrier):
+        sys.stdout.write("shiftlog python sendStorePost")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -94,6 +96,8 @@ class Client(Iface):
         return
 
     def ReadPost(self, req_id, post_id, carrier):
+        sys.stdout.write("shiftlog python sendReadPost")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -132,6 +136,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "ReadPost failed: unknown result")
 
     def ReadPosts(self, req_id, post_ids, carrier):
+        sys.stdout.write("shiftlog python sendReadPosts")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -200,6 +206,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_StorePost(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process StorePost")
+        sys.exit("shiftlog exit")
         args = StorePost_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -226,6 +234,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadPost(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadPost")
+        sys.exit("shiftlog exit")
         args = ReadPost_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -252,6 +262,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadPosts(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadPosts")
+        sys.exit("shiftlog exit")
         args = ReadPosts_args()
         args.read(iprot)
         iprot.readMessageEnd()

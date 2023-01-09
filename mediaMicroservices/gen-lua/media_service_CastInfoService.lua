@@ -314,6 +314,8 @@ function CastInfoServiceClient:WriteCastInfo(req_id, cast_id, name, gender, intr
   --io.write("shiftlog luasend 1\n")
   self:send_WriteCastInfo(req_id, cast_id, name, gender, intro, carrier)
   self:recv_WriteCastInfo(req_id, cast_id, name, gender, intro, carrier)
+  io.write(string.format("shiftlog luasenddone CastInfoServiceClient WriteCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function CastInfoServiceClient:send_WriteCastInfo(req_id, cast_id, name, gender, intro, carrier)
@@ -351,7 +353,10 @@ function CastInfoServiceClient:ReadCastInfo(req_id, cast_ids, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   --io.write("shiftlog luasend 1\n")
   self:send_ReadCastInfo(req_id, cast_ids, carrier)
-  return self:recv_ReadCastInfo(req_id, cast_ids, carrier)
+  tmp = self:recv_ReadCastInfo(req_id, cast_ids, carrier)
+  io.write(string.format("shiftlog luasenddone CastInfoServiceClient ReadCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp;
 end
 
 function CastInfoServiceClient:send_ReadCastInfo(req_id, cast_ids, carrier)
@@ -417,6 +422,9 @@ function CastInfoServiceProcessor:process_WriteCastInfo(seqid, iprot, oprot, ser
   args:read(iprot)
   iprot:readMessageEnd()
   local result = WriteCastInfo_result:new{}
+
+  io.write(string.format("shiftlog luaprocessstart CastInfoServiceProcessor WriteCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.WriteCastInfo, self.handler, args.req_id, args.cast_id, args.name, args.gender, args.intro, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -426,6 +434,8 @@ function CastInfoServiceProcessor:process_WriteCastInfo(seqid, iprot, oprot, ser
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocesssend CastInfoServiceProcessor WriteCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('WriteCastInfo', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -438,6 +448,9 @@ function CastInfoServiceProcessor:process_ReadCastInfo(seqid, iprot, oprot, serv
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadCastInfo_result:new{}
+
+  io.write(string.format("shiftlog luaprocessstart CastInfoServiceProcessor ReadCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadCastInfo, self.handler, args.req_id, args.cast_ids, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -447,6 +460,9 @@ function CastInfoServiceProcessor:process_ReadCastInfo(seqid, iprot, oprot, serv
   else
     result.success = res
   end
+
+  io.write(string.format("shiftlog luaprocessend CastInfoServiceProcessor ReadCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadCastInfo', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

@@ -97,6 +97,8 @@ class Client(Iface):
         self._seqid = 0
 
     def RegisterUser(self, req_id, first_name, last_name, username, password, carrier):
+        sys.stdout.write("shiftlog python sendRegisterUser")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -139,6 +141,8 @@ class Client(Iface):
         return
 
     def RegisterUserWithId(self, req_id, first_name, last_name, username, password, user_id, carrier):
+        sys.stdout.write("shiftlog python sendRegisterUserWithId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -183,6 +187,8 @@ class Client(Iface):
         return
 
     def Login(self, req_id, username, password, carrier):
+        sys.stdout.write("shiftlog python sendLogin")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -223,6 +229,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "Login failed: unknown result")
 
     def ComposeCreatorWithUserId(self, req_id, user_id, username, carrier):
+        sys.stdout.write("shiftlog python sendComposeCreatorWithUserId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -263,6 +271,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "ComposeCreatorWithUserId failed: unknown result")
 
     def ComposeCreatorWithUsername(self, req_id, username, carrier):
+        sys.stdout.write("shiftlog python sendComposeCreatorWithUsername")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -301,6 +311,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "ComposeCreatorWithUsername failed: unknown result")
 
     def GetUserId(self, req_id, username, carrier):
+        sys.stdout.write("shiftlog python sendGetUserId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -372,6 +384,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_RegisterUser(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process RegisterUser")
+        sys.exit("shiftlog exit")
         args = RegisterUser_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -398,6 +412,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_RegisterUserWithId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process RegisterUserWithId")
+        sys.exit("shiftlog exit")
         args = RegisterUserWithId_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -424,6 +440,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_Login(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process Login")
+        sys.exit("shiftlog exit")
         args = Login_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -450,6 +468,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ComposeCreatorWithUserId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ComposeCreatorWithUserId")
+        sys.exit("shiftlog exit")
         args = ComposeCreatorWithUserId_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -476,6 +496,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ComposeCreatorWithUsername(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ComposeCreatorWithUsername")
+        sys.exit("shiftlog exit")
         args = ComposeCreatorWithUsername_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -502,6 +524,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_GetUserId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process GetUserId")
+        sys.exit("shiftlog exit")
         args = GetUserId_args()
         args.read(iprot)
         iprot.readMessageEnd()

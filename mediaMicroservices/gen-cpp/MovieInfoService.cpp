@@ -1066,6 +1066,10 @@ void MovieInfoServiceClient::WriteMovieInfo(const int64_t req_id, const std::str
   std::cout << "shiftlog send MovieInfoService WriteMovieInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_WriteMovieInfo(req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier);
   recv_WriteMovieInfo();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone MovieInfoService WriteMovieInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void MovieInfoServiceClient::send_WriteMovieInfo(const int64_t req_id, const std::string& movie_id, const std::string& title, const std::vector<Cast> & casts, const int64_t plot_id, const std::vector<std::string> & thumbnail_ids, const std::vector<std::string> & photo_ids, const std::vector<std::string> & video_ids, const std::string& avg_rating, const int32_t num_rating, const std::map<std::string, std::string> & carrier)
@@ -1136,6 +1140,11 @@ void MovieInfoServiceClient::ReadMovieInfo(MovieInfo& _return, const int64_t req
   std::cout << "shiftlog send MovieInfoService ReadMovieInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_ReadMovieInfo(req_id, movie_id, carrier);
   recv_ReadMovieInfo(_return);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone MovieInfoService ReadMovieInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 void MovieInfoServiceClient::send_ReadMovieInfo(const int64_t req_id, const std::string& movie_id, const std::map<std::string, std::string> & carrier)
@@ -1203,6 +1212,10 @@ void MovieInfoServiceClient::UpdateRating(const int64_t req_id, const std::strin
   std::cout << "shiftlog send MovieInfoService UpdateRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UpdateRating(req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier);
   recv_UpdateRating();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone MovieInfoService UpdateRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void MovieInfoServiceClient::send_UpdateRating(const int64_t req_id, const std::string& movie_id, const int32_t sum_uncommitted_rating, const int32_t num_uncommitted_rating, const std::map<std::string, std::string> & carrier)
@@ -1303,7 +1316,7 @@ void MovieInfoServiceProcessor::process_WriteMovieInfo(int32_t seqid, ::apache::
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process MovieInfoService WriteMovieInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart MovieInfoService WriteMovieInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->WriteMovieInfo(args.req_id, args.movie_id, args.title, args.casts, args.plot_id, args.thumbnail_ids, args.photo_ids, args.video_ids, args.avg_rating, args.num_rating, args.carrier);
   } catch (ServiceException &se) {
@@ -1313,7 +1326,10 @@ void MovieInfoServiceProcessor::process_WriteMovieInfo(int32_t seqid, ::apache::
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "MovieInfoService.WriteMovieInfo");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend MovieInfoService WriteMovieInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("WriteMovieInfo", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1328,6 +1344,10 @@ void MovieInfoServiceProcessor::process_WriteMovieInfo(int32_t seqid, ::apache::
     this->eventHandler_->preWrite(ctx, "MovieInfoService.WriteMovieInfo");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend MovieInfoService WriteMovieInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("WriteMovieInfo", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1364,7 +1384,7 @@ void MovieInfoServiceProcessor::process_ReadMovieInfo(int32_t seqid, ::apache::t
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process MovieInfoService ReadMovieInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart MovieInfoService ReadMovieInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->ReadMovieInfo(result.success, args.req_id, args.movie_id, args.carrier);
     result.__isset.success = true;
@@ -1375,7 +1395,10 @@ void MovieInfoServiceProcessor::process_ReadMovieInfo(int32_t seqid, ::apache::t
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "MovieInfoService.ReadMovieInfo");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend MovieInfoService ReadMovieInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("ReadMovieInfo", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1390,6 +1413,10 @@ void MovieInfoServiceProcessor::process_ReadMovieInfo(int32_t seqid, ::apache::t
     this->eventHandler_->preWrite(ctx, "MovieInfoService.ReadMovieInfo");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend MovieInfoService ReadMovieInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("ReadMovieInfo", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1426,7 +1453,7 @@ void MovieInfoServiceProcessor::process_UpdateRating(int32_t seqid, ::apache::th
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process MovieInfoService UpdateRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart MovieInfoService UpdateRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UpdateRating(args.req_id, args.movie_id, args.sum_uncommitted_rating, args.num_uncommitted_rating, args.carrier);
   } catch (ServiceException &se) {
@@ -1436,7 +1463,10 @@ void MovieInfoServiceProcessor::process_UpdateRating(int32_t seqid, ::apache::th
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "MovieInfoService.UpdateRating");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend MovieInfoService UpdateRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UpdateRating", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1451,6 +1481,10 @@ void MovieInfoServiceProcessor::process_UpdateRating(int32_t seqid, ::apache::th
     this->eventHandler_->preWrite(ctx, "MovieInfoService.UpdateRating");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend MovieInfoService UpdateRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UpdateRating", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1477,6 +1511,10 @@ void MovieInfoServiceConcurrentClient::WriteMovieInfo(const int64_t req_id, cons
   std::cout << "shiftlog sendcon MovieInfoService WriteMovieInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_WriteMovieInfo(req_id, movie_id, title, casts, plot_id, thumbnail_ids, photo_ids, video_ids, avg_rating, num_rating, carrier);
   recv_WriteMovieInfo(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone MovieInfoService WriteMovieInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t MovieInfoServiceConcurrentClient::send_WriteMovieInfo(const int64_t req_id, const std::string& movie_id, const std::string& title, const std::vector<Cast> & casts, const int64_t plot_id, const std::vector<std::string> & thumbnail_ids, const std::vector<std::string> & photo_ids, const std::vector<std::string> & video_ids, const std::string& avg_rating, const int32_t num_rating, const std::map<std::string, std::string> & carrier)
@@ -1573,6 +1611,11 @@ void MovieInfoServiceConcurrentClient::ReadMovieInfo(MovieInfo& _return, const i
   std::cout << "shiftlog sendcon MovieInfoService ReadMovieInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_ReadMovieInfo(req_id, movie_id, carrier);
   recv_ReadMovieInfo(_return, seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone MovieInfoService ReadMovieInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 int32_t MovieInfoServiceConcurrentClient::send_ReadMovieInfo(const int64_t req_id, const std::string& movie_id, const std::map<std::string, std::string> & carrier)
@@ -1667,6 +1710,10 @@ void MovieInfoServiceConcurrentClient::UpdateRating(const int64_t req_id, const 
   std::cout << "shiftlog sendcon MovieInfoService UpdateRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UpdateRating(req_id, movie_id, sum_uncommitted_rating, num_uncommitted_rating, carrier);
   recv_UpdateRating(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone MovieInfoService UpdateRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t MovieInfoServiceConcurrentClient::send_UpdateRating(const int64_t req_id, const std::string& movie_id, const int32_t sum_uncommitted_rating, const int32_t num_uncommitted_rating, const std::map<std::string, std::string> & carrier)

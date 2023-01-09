@@ -49,7 +49,8 @@ class Client(Iface):
         self._seqid = 0
 
     def WritePlot(self, req_id, plot_id, plot, carrier):
-        sys.stdout.write("shiftlog python WritePlot")
+        sys.stdout.write("shiftlog python sendWritePlot")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -88,7 +89,8 @@ class Client(Iface):
         return
 
     def ReadPlot(self, req_id, plot_id, carrier):
-        sys.stdout.write("shiftlog python ReadPlot")
+        sys.stdout.write("shiftlog python sendReadPlot")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -156,6 +158,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_WritePlot(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process WritePlot")
+        sys.exit("shiftlog exit")
         args = WritePlot_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -182,6 +186,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadPlot(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadPlot")
+        sys.exit("shiftlog exit")
         args = ReadPlot_args()
         args.read(iprot)
         iprot.readMessageEnd()

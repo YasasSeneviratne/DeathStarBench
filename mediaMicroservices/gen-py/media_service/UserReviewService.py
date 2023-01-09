@@ -52,7 +52,8 @@ class Client(Iface):
         self._seqid = 0
 
     def UploadUserReview(self, req_id, user_id, review_id, timestamp, carrier):
-        sys.stdout.write("shiftlog python UploadUserReview")
+        sys.stdout.write("shiftlog python sendUploadUserReview")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -93,7 +94,8 @@ class Client(Iface):
         return
 
     def ReadUserReviews(self, req_id, user_id, start, stop, carrier):
-        sys.stdout.write("shiftlog python ReadUserReviews")
+        sys.stdout.write("shiftlog python sendReadUserReviews")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -165,6 +167,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_UploadUserReview(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadUserReview")
+        sys.exit("shiftlog exit")
         args = UploadUserReview_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -191,6 +195,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadUserReviews(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadUserReviews")
+        sys.exit("shiftlog exit")
         args = ReadUserReviews_args()
         args.read(iprot)
         iprot.readMessageEnd()

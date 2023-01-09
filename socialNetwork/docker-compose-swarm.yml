@@ -19,6 +19,8 @@ services:
     #     protocol: tcp
     #     mode: host
     deploy:
+      placement:
+        constraints: [node.labels.ID==frontend]
       restart_policy:
         condition: any
     depends_on:
@@ -29,6 +31,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -43,6 +47,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: home-timeline-redis
     image: redis
     command: "redis-server /social-network-microservices/config/redis.conf"
@@ -55,6 +62,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -70,6 +79,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==frontend]
       replicas: 1
       restart_policy:
         condition: any
@@ -85,6 +96,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: media-memcached
     image: memcached
     command:
@@ -97,6 +111,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: media-mongodb
     image: mongo:4.4.6
     command: "mongod --nojournal --quiet --config /social-network-microservices/config/mongod.conf"
@@ -111,6 +128,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -126,6 +145,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==frontend]
       replicas: 1
       restart_policy:
         condition: any
@@ -146,6 +167,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: post-storage-memcached
     image: memcached
     command:
@@ -158,6 +182,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: post-storage-mongodb
     image: mongo:4.4.6
     command: "mongod --nojournal --quiet --config /social-network-microservices/config/mongod.conf"
@@ -172,6 +199,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -186,6 +215,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: social-graph-mongodb
     image: mongo:4.4.6
     command: "mongod --nojournal --quiet --config /social-network-microservices/config/mongod.conf"
@@ -199,6 +231,9 @@ services:
       - jaeger-agent
       - jaeger-query
     hostname: social-graph-redis
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     image: redis
     command: "redis-server /social-network-microservices/config/redis.conf"
     volumes:
@@ -211,6 +246,8 @@ services:
       - jaeger-query
       - social-graph-mongodb
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -226,6 +263,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -241,6 +280,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -255,6 +296,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: url-shorten-memcached
     image: memcached
     command:
@@ -267,6 +311,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: url-shorten-mongodb
     image: mongo:4.4.6
     command: "mongod --nojournal --quiet --config /social-network-microservices/config/mongod.conf"
@@ -281,6 +328,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -295,6 +344,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: user-memcached
     image: memcached
     command:
@@ -308,6 +360,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -322,6 +376,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: user-mongodb
     image: mongo:4.4.6
     command: "mongod --nojournal --quiet --config /social-network-microservices/config/mongod.conf"
@@ -336,6 +393,8 @@ services:
       - jaeger-agent
       - jaeger-query
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -350,6 +409,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: user-timeline-mongodb
     image: mongo:4.4.6
     command: "mongod --nojournal --quiet --config /social-network-microservices/config/mongod.conf"
@@ -362,6 +424,9 @@ services:
     depends_on:
       - jaeger-agent
       - jaeger-query
+    deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
     hostname: user-timeline-redis
     image: redis
     command: "redis-server /social-network-microservices/config/redis.conf"
@@ -374,6 +439,8 @@ services:
       - user-timeline-mongodb
       - jaeger-agent
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       replicas: 1
       restart_policy:
         condition: any
@@ -396,6 +463,8 @@ services:
     ports:
       - "14269:14269"
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       restart_policy:
         condition: any
     depends_on:
@@ -408,6 +477,8 @@ services:
     ports:
       - "16686:16686"
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       restart_policy:
         condition: any
     depends_on:
@@ -416,6 +487,8 @@ services:
   cassandra-schema:
     image: jaegertracing/jaeger-cassandra-schema
     deploy:
+      placement:
+        constraints: [node.labels.ID==mid]
       restart_policy:
         condition: on-failure
     depends_on:
@@ -424,6 +497,8 @@ services:
   cassandra:
     image: cassandra:3.9
     deploy:
+      placement:
+        constraints: [node.labels.ID==backend]
 
 networks:
   default:

@@ -176,10 +176,6 @@ services:
       - ./nginx-web-server/conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./nginx-web-server/jaeger-config.json:/usr/local/openresty/nginx/jaeger-config.json
       - ./gen-lua:/gen-lua
-      #- /usr/local/lua/5.1/posix/:/usr/local/share/lua/5.1/posix/
-      #- /usr/lib/x86_64-linux-gnu/lua/5.1/posix.so:/posix.so
-      #- /lib/x86_64-linux-gnu/:/lib/x86_64-linux-gnu/
-      #- /usr/local/lib/lua/5.2/posix/:/usr/local/lib/lua/5.1/posix/
 
   cast-info-service:
     image: media_sevice_yasas:v2

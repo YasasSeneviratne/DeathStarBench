@@ -52,6 +52,8 @@ class Client(Iface):
         self._seqid = 0
 
     def WriteUserTimeline(self, req_id, post_id, user_id, timestamp, carrier):
+        sys.stdout.write("shiftlog python sendWriteUserTimeline")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -92,6 +94,8 @@ class Client(Iface):
         return
 
     def ReadUserTimeline(self, req_id, user_id, start, stop, carrier):
+        sys.stdout.write("shiftlog python sendReadUserTimeline")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -163,6 +167,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_WriteUserTimeline(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process WriteUserTimeline")
+        sys.exit("shiftlog exit")
         args = WriteUserTimeline_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -189,6 +195,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_ReadUserTimeline(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ReadUserTimeline")
+        sys.exit("shiftlog exit")
         args = ReadUserTimeline_args()
         args.read(iprot)
         iprot.readMessageEnd()

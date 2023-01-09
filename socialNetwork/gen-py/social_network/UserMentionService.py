@@ -38,6 +38,8 @@ class Client(Iface):
         self._seqid = 0
 
     def ComposeUserMentions(self, req_id, usernames, carrier):
+        sys.stdout.write("shiftlog python sendComposeUserMentions")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -104,6 +106,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_ComposeUserMentions(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ComposeUserMentions")
+        sys.exit("shiftlog exit")
         args = ComposeUserMentions_args()
         args.read(iprot)
         iprot.readMessageEnd()

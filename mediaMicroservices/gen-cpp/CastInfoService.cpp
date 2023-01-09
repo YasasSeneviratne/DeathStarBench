@@ -650,6 +650,10 @@ void CastInfoServiceClient::WriteCastInfo(const int64_t req_id, const int64_t ca
   std::cout << "shiftlog send CastInfoService WriteCastInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_WriteCastInfo(req_id, cast_info_id, name, gender, intro, carrier);
   recv_WriteCastInfo();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone CastInfoService WriteCastInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void CastInfoServiceClient::send_WriteCastInfo(const int64_t req_id, const int64_t cast_info_id, const std::string& name, const bool gender, const std::string& intro, const std::map<std::string, std::string> & carrier)
@@ -715,6 +719,11 @@ void CastInfoServiceClient::ReadCastInfo(std::vector<CastInfo> & _return, const 
   std::cout << "shiftlog send CastInfoService ReadCastInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_ReadCastInfo(req_id, cast_ids, carrier);
   recv_ReadCastInfo(_return);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone CastInfoService ReadCastInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 void CastInfoServiceClient::send_ReadCastInfo(const int64_t req_id, const std::vector<int64_t> & cast_ids, const std::map<std::string, std::string> & carrier)
@@ -818,7 +827,7 @@ void CastInfoServiceProcessor::process_WriteCastInfo(int32_t seqid, ::apache::th
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process CastInfoService WriteCastInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart CastInfoService WriteCastInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->WriteCastInfo(args.req_id, args.cast_info_id, args.name, args.gender, args.intro, args.carrier);
   } catch (ServiceException &se) {
@@ -828,7 +837,10 @@ void CastInfoServiceProcessor::process_WriteCastInfo(int32_t seqid, ::apache::th
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "CastInfoService.WriteCastInfo");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend CastInfoService WriteCastInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("WriteCastInfo", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -843,6 +855,10 @@ void CastInfoServiceProcessor::process_WriteCastInfo(int32_t seqid, ::apache::th
     this->eventHandler_->preWrite(ctx, "CastInfoService.WriteCastInfo");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend CastInfoService WriteCastInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("WriteCastInfo", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -879,7 +895,7 @@ void CastInfoServiceProcessor::process_ReadCastInfo(int32_t seqid, ::apache::thr
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process CastInfoService ReadCastInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart CastInfoService ReadCastInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->ReadCastInfo(result.success, args.req_id, args.cast_ids, args.carrier);
     result.__isset.success = true;
@@ -890,7 +906,10 @@ void CastInfoServiceProcessor::process_ReadCastInfo(int32_t seqid, ::apache::thr
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "CastInfoService.ReadCastInfo");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend CastInfoService ReadCastInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("ReadCastInfo", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -905,6 +924,10 @@ void CastInfoServiceProcessor::process_ReadCastInfo(int32_t seqid, ::apache::thr
     this->eventHandler_->preWrite(ctx, "CastInfoService.ReadCastInfo");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend CastInfoService ReadCastInfo "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("ReadCastInfo", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -931,6 +954,10 @@ void CastInfoServiceConcurrentClient::WriteCastInfo(const int64_t req_id, const 
   std::cout << "shiftlog sendcon CastInfoService WriteCastInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_WriteCastInfo(req_id, cast_info_id, name, gender, intro, carrier);
   recv_WriteCastInfo(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone CastInfoService WriteCastInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t CastInfoServiceConcurrentClient::send_WriteCastInfo(const int64_t req_id, const int64_t cast_info_id, const std::string& name, const bool gender, const std::string& intro, const std::map<std::string, std::string> & carrier)
@@ -1022,6 +1049,11 @@ void CastInfoServiceConcurrentClient::ReadCastInfo(std::vector<CastInfo> & _retu
   std::cout << "shiftlog sendcon CastInfoService ReadCastInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_ReadCastInfo(req_id, cast_ids, carrier);
   recv_ReadCastInfo(_return, seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone CastInfoService ReadCastInfo "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 int32_t CastInfoServiceConcurrentClient::send_ReadCastInfo(const int64_t req_id, const std::vector<int64_t> & cast_ids, const std::map<std::string, std::string> & carrier)

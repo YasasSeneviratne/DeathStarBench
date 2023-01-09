@@ -37,7 +37,8 @@ class Client(Iface):
         self._seqid = 0
 
     def UploadUniqueId(self, req_id, carrier):
-        sys.stdout.write("shiftlog python UploadUniqueId")
+        sys.stdout.write("shiftlog python sendUploadUniqueId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -100,6 +101,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_UploadUniqueId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadUniqueId")
+        sys.exit("shiftlog exit")
         args = UploadUniqueId_args()
         args.read(iprot)
         iprot.readMessageEnd()

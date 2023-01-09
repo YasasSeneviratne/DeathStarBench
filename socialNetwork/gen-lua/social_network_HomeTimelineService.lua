@@ -7,6 +7,7 @@
 
 
 local Thrift = require 'Thrift'
+local posix = require 'posix'
 local TType = Thrift.TType
 local TMessageType = Thrift.TMessageType
 local __TObject = Thrift.__TObject
@@ -333,8 +334,13 @@ local HomeTimelineServiceClient = __TObject.new(__TClient, {
 })
 
 function HomeTimelineServiceClient:ReadHomeTimeline(req_id, user_id, start, stop, carrier)
+  io.write(string.format("shiftlog luasend HomeTimelineServiceClient ReadHomeTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadHomeTimeline(req_id, user_id, start, stop, carrier)
-  return self:recv_ReadHomeTimeline(req_id, user_id, start, stop, carrier)
+  tmp =  self:recv_ReadHomeTimeline(req_id, user_id, start, stop, carrier)
+  io.write(string.format("shiftlog luasenddone HomeTimelineServiceClient ReadHomeTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function HomeTimelineServiceClient:send_ReadHomeTimeline(req_id, user_id, start, stop, carrier)
@@ -370,8 +376,12 @@ function HomeTimelineServiceClient:recv_ReadHomeTimeline(req_id, user_id, start,
 end
 
 function HomeTimelineServiceClient:WriteHomeTimeline(req_id, post_id, user_id, timestamp, user_mentions_id, carrier)
+  io.write(string.format("shiftlog luasend HomeTimelineServiceClient WriteHomeTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_WriteHomeTimeline(req_id, post_id, user_id, timestamp, user_mentions_id, carrier)
   self:recv_WriteHomeTimeline(req_id, post_id, user_id, timestamp, user_mentions_id, carrier)
+  io.write(string.format("shiftlog luasenddone HomeTimelineServiceClient WriteHomeTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function HomeTimelineServiceClient:send_WriteHomeTimeline(req_id, post_id, user_id, timestamp, user_mentions_id, carrier)
@@ -434,6 +444,9 @@ function HomeTimelineServiceProcessor:process_ReadHomeTimeline(seqid, iprot, opr
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadHomeTimeline_result:new{}
+
+  io.write(string.format("shiftlog luaprocessstart HomeTimelineServiceProcessor ReadHomeTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadHomeTimeline, self.handler, args.req_id, args.user_id, args.start, args.stop, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -443,6 +456,8 @@ function HomeTimelineServiceProcessor:process_ReadHomeTimeline(seqid, iprot, opr
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend HomeTimelineServiceProcessor ReadHomeTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadHomeTimeline', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -455,6 +470,9 @@ function HomeTimelineServiceProcessor:process_WriteHomeTimeline(seqid, iprot, op
   args:read(iprot)
   iprot:readMessageEnd()
   local result = WriteHomeTimeline_result:new{}
+
+  io.write(string.format("shiftlog luaprocessstart HomeTimelineServiceProcessor WriteHomeTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.WriteHomeTimeline, self.handler, args.req_id, args.post_id, args.user_id, args.timestamp, args.user_mentions_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -464,6 +482,8 @@ function HomeTimelineServiceProcessor:process_WriteHomeTimeline(seqid, iprot, op
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend HomeTimelineServiceProcessor WriteHomeTimeline %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('WriteHomeTimeline', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

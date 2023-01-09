@@ -267,6 +267,8 @@ function MovieIdServiceClient:UploadMovieId(req_id, title, rating, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadMovieId(req_id, title, rating, carrier)
   self:recv_UploadMovieId(req_id, title, rating, carrier)
+  io.write(string.format("shiftlog luasenddone MovieIdServiceClient UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function MovieIdServiceClient:send_UploadMovieId(req_id, title, rating, carrier)
@@ -363,6 +365,8 @@ function MovieIdServiceProcessor:process_UploadMovieId(seqid, iprot, oprot, serv
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadMovieId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart MovieIdServiceProcessor UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadMovieId, self.handler, args.req_id, args.title, args.rating, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -372,6 +376,8 @@ function MovieIdServiceProcessor:process_UploadMovieId(seqid, iprot, oprot, serv
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend MovieIdServiceProcessor UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadMovieId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -384,6 +390,8 @@ function MovieIdServiceProcessor:process_RegisterMovieId(seqid, iprot, oprot, se
   args:read(iprot)
   iprot:readMessageEnd()
   local result = RegisterMovieId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart MovieIdServiceProcessor RegisterMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.RegisterMovieId, self.handler, args.req_id, args.title, args.movie_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -393,6 +401,8 @@ function MovieIdServiceProcessor:process_RegisterMovieId(seqid, iprot, oprot, se
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend MovieIdServiceProcessor RegisterMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('RegisterMovieId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

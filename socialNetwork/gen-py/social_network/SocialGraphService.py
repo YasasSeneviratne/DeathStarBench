@@ -102,6 +102,8 @@ class Client(Iface):
         self._seqid = 0
 
     def GetFollowers(self, req_id, user_id, carrier):
+        sys.stdout.write("shiftlog python sendGetFollowers")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -140,6 +142,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "GetFollowers failed: unknown result")
 
     def GetFollowees(self, req_id, user_id, carrier):
+        sys.stdout.write("shiftlog python sendGetFollowees")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -178,6 +182,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "GetFollowees failed: unknown result")
 
     def Follow(self, req_id, user_id, followee_id, carrier):
+        sys.stdout.write("shiftlog python sendFollow")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -216,6 +222,8 @@ class Client(Iface):
         return
 
     def Unfollow(self, req_id, user_id, followee_id, carrier):
+        sys.stdout.write("shiftlog python sendUnfollow")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -254,6 +262,8 @@ class Client(Iface):
         return
 
     def FollowWithUsername(self, req_id, user_usernmae, followee_username, carrier):
+        sys.stdout.write("shiftlog python sendFollowWithUsername")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -292,6 +302,8 @@ class Client(Iface):
         return
 
     def UnfollowWithUsername(self, req_id, user_usernmae, followee_username, carrier):
+        sys.stdout.write("shiftlog python sendUnfollowWithUsername")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -330,6 +342,8 @@ class Client(Iface):
         return
 
     def InsertUser(self, req_id, user_id, carrier):
+        sys.stdout.write("shiftlog python sendInsertUser")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -400,6 +414,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_GetFollowers(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process GetFollowers")
+        sys.exit("shiftlog exit")
         args = GetFollowers_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -426,6 +442,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_GetFollowees(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process GetFollowees")
+        sys.exit("shiftlog exit")
         args = GetFollowees_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -452,6 +470,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_Follow(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process Follow")
+        sys.exit("shiftlog exit")
         args = Follow_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -478,6 +498,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_Unfollow(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process Unfollow")
+        sys.exit("shiftlog exit")
         args = Unfollow_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -504,6 +526,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_FollowWithUsername(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process FollowWithUsername")
+        sys.exit("shiftlog exit")
         args = FollowWithUsername_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -530,6 +554,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_UnfollowWithUsername(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UnfollowWithUsername")
+        sys.exit("shiftlog exit")
         args = UnfollowWithUsername_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -556,6 +582,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_InsertUser(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process InsertUser")
+        sys.exit("shiftlog exit")
         args = InsertUser_args()
         args.read(iprot)
         iprot.readMessageEnd()

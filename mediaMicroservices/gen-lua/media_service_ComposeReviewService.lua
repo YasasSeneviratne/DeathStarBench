@@ -19,6 +19,8 @@ function ComposeReviewServiceClient:UploadText(req_id, text, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadText(req_id, text, carrier)
   self:recv_UploadText(req_id, text, carrier)
+  io.write(string.format("shiftlog luasenddone ComposeReviewServiceClient UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function ComposeReviewServiceClient:send_UploadText(req_id, text, carrier)
@@ -50,6 +52,8 @@ function ComposeReviewServiceClient:UploadRating(req_id, rating, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadRating(req_id, rating, carrier)
   self:recv_UploadRating(req_id, rating, carrier)
+  io.write(string.format("shiftlog luasenddone ComposeReviewServiceClient UploadRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function ComposeReviewServiceClient:send_UploadRating(req_id, rating, carrier)
@@ -81,6 +85,8 @@ function ComposeReviewServiceClient:UploadMovieId(req_id, movie_id, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadMovieId(req_id, movie_id, carrier)
   self:recv_UploadMovieId(req_id, movie_id, carrier)
+  io.write(string.format("shiftlog luasenddone ComposeReviewServiceClient UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function ComposeReviewServiceClient:send_UploadMovieId(req_id, movie_id, carrier)
@@ -112,6 +118,8 @@ function ComposeReviewServiceClient:UploadUniqueId(req_id, unique_id, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUniqueId(req_id, unique_id, carrier)
   self:recv_UploadUniqueId(req_id, unique_id, carrier)
+  io.write(string.format("shiftlog luasenddone ComposeReviewServiceClient UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function ComposeReviewServiceClient:send_UploadUniqueId(req_id, unique_id, carrier)
@@ -143,6 +151,8 @@ function ComposeReviewServiceClient:UploadUserId(req_id, user_id, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadUserId(req_id, user_id, carrier)
   self:recv_UploadUserId(req_id, user_id, carrier)
+  io.write(string.format("shiftlog luasenddone ComposeReviewServiceClient UploadUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function ComposeReviewServiceClient:send_UploadUserId(req_id, user_id, carrier)
@@ -202,6 +212,8 @@ function ComposeReviewServiceProcessor:process_UploadText(seqid, iprot, oprot, s
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadText_result:new{}
+  io.write(string.format("shiftlog luaprocessstart ComposeReviewServiceProcessor UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadText, self.handler, args.req_id, args.text, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -211,6 +223,8 @@ function ComposeReviewServiceProcessor:process_UploadText(seqid, iprot, oprot, s
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend ComposeReviewServiceProcessor UploadText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadText', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -223,6 +237,8 @@ function ComposeReviewServiceProcessor:process_UploadRating(seqid, iprot, oprot,
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadRating_result:new{}
+  io.write(string.format("shiftlog luaprocessstart ComposeReviewServiceProcessor UploadRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadRating, self.handler, args.req_id, args.rating, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -232,6 +248,8 @@ function ComposeReviewServiceProcessor:process_UploadRating(seqid, iprot, oprot,
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend ComposeReviewServiceProcessor UploadRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadRating', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -244,6 +262,8 @@ function ComposeReviewServiceProcessor:process_UploadMovieId(seqid, iprot, oprot
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadMovieId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart ComposeReviewServiceProcessor UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadMovieId, self.handler, args.req_id, args.movie_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -253,6 +273,8 @@ function ComposeReviewServiceProcessor:process_UploadMovieId(seqid, iprot, oprot
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend ComposeReviewServiceProcessor UploadMovieId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadMovieId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -265,6 +287,8 @@ function ComposeReviewServiceProcessor:process_UploadUniqueId(seqid, iprot, opro
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadUniqueId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart ComposeReviewServiceProcessor UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadUniqueId, self.handler, args.req_id, args.unique_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -274,6 +298,8 @@ function ComposeReviewServiceProcessor:process_UploadUniqueId(seqid, iprot, opro
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend ComposeReviewServiceProcessor UploadUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadUniqueId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -286,6 +312,8 @@ function ComposeReviewServiceProcessor:process_UploadUserId(seqid, iprot, oprot,
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadUserId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart ComposeReviewServiceProcessor UploadUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadUserId, self.handler, args.req_id, args.user_id, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -295,6 +323,8 @@ function ComposeReviewServiceProcessor:process_UploadUserId(seqid, iprot, oprot,
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend ComposeReviewServiceProcessor UploadUserId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadUserId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

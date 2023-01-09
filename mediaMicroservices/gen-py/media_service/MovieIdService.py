@@ -50,7 +50,8 @@ class Client(Iface):
         self._seqid = 0
 
     def UploadMovieId(self, req_id, title, rating, carrier):
-        sys.stdout.write("shiftlog python UploadMovieId")
+        sys.stdout.write("shiftlog python sendUploadMovieId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -89,7 +90,8 @@ class Client(Iface):
         return
 
     def RegisterMovieId(self, req_id, title, movie_id, carrier):
-        sys.stdout.write("shiftlog python RegisterMovieId")
+        sys.stdout.write("shiftlog python sendRegisterMovieId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -157,6 +159,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_UploadMovieId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadMovieId")
+        sys.exit("shiftlog exit")
         args = UploadMovieId_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -183,6 +187,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_RegisterMovieId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process RegisterMovieId")
+        sys.exit("shiftlog exit")
         args = RegisterMovieId_args()
         args.read(iprot)
         iprot.readMessageEnd()

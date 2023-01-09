@@ -7,6 +7,7 @@
 
 
 require 'Thrift'
+require 'posix'
 require 'social_network_ttypes'
 
 UniqueIdServiceClient = __TObject.new(__TClient, {
@@ -14,8 +15,13 @@ UniqueIdServiceClient = __TObject.new(__TClient, {
 })
 
 function UniqueIdServiceClient:ComposeUniqueId(req_id, post_type, carrier)
+  io.write(string.format("shiftlog luasend UniqueIdServiceClient ComposeUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ComposeUniqueId(req_id, post_type, carrier)
-  return self:recv_ComposeUniqueId(req_id, post_type, carrier)
+  tmp = self:recv_ComposeUniqueId(req_id, post_type, carrier)
+  io.write(string.format("shiftlog luasenddone UniqueIdServiceClient ComposeUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function UniqueIdServiceClient:send_ComposeUniqueId(req_id, post_type, carrier)
@@ -81,6 +87,8 @@ function UniqueIdServiceProcessor:process_ComposeUniqueId(seqid, iprot, oprot, s
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ComposeUniqueId_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UniqueIdServiceProcessor ComposeUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ComposeUniqueId, self.handler, args.req_id, args.post_type, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -90,6 +98,8 @@ function UniqueIdServiceProcessor:process_ComposeUniqueId(seqid, iprot, oprot, s
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UniqueIdServiceProcessor ComposeUniqueId %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ComposeUniqueId', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

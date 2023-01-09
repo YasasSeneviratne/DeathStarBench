@@ -7,6 +7,7 @@
 
 
 require 'Thrift'
+require 'posix'
 require 'social_network_ttypes'
 
 UserMentionServiceClient = __TObject.new(__TClient, {
@@ -14,8 +15,13 @@ UserMentionServiceClient = __TObject.new(__TClient, {
 })
 
 function UserMentionServiceClient:ComposeUserMentions(req_id, usernames, carrier)
+  io.write(string.format("shiftlog luasend UserMentionServiceClient ComposeUserMentions %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ComposeUserMentions(req_id, usernames, carrier)
-  return self:recv_ComposeUserMentions(req_id, usernames, carrier)
+  tmp = self:recv_ComposeUserMentions(req_id, usernames, carrier)
+  io.write(string.format("shiftlog luasenddone UserMentionServiceClient ComposeUserMentions %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function UserMentionServiceClient:send_ComposeUserMentions(req_id, usernames, carrier)
@@ -81,6 +87,8 @@ function UserMentionServiceProcessor:process_ComposeUserMentions(seqid, iprot, o
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ComposeUserMentions_result:new{}
+  io.write(string.format("shiftlog luaprocessstart UserMentionServiceProcessor ComposeUserMentions %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ComposeUserMentions, self.handler, args.req_id, args.usernames, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -90,6 +98,8 @@ function UserMentionServiceProcessor:process_ComposeUserMentions(seqid, iprot, o
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend UserMentionServiceProcessor ComposeUserMentions %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ComposeUserMentions', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

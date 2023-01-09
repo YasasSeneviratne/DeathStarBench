@@ -38,7 +38,8 @@ class Client(Iface):
         self._seqid = 0
 
     def UploadText(self, req_id, text, carrier):
-        sys.stdout.write("shiftlog python UploadText")
+        sys.stdout.write("shiftlog python sendUploadText")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -103,6 +104,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_UploadText(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadText")
+        sys.exit("shiftlog exit")
         args = UploadText_args()
         args.read(iprot)
         iprot.readMessageEnd()

@@ -7,6 +7,7 @@
 
 
 require 'Thrift'
+require 'posix'
 require 'social_network_ttypes'
 
 TextServiceClient = __TObject.new(__TClient, {
@@ -14,8 +15,13 @@ TextServiceClient = __TObject.new(__TClient, {
 })
 
 function TextServiceClient:ComposeText(req_id, text, carrier)
+  io.write(string.format("shiftlog luasend TextServiceClient ComposeText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ComposeText(req_id, text, carrier)
-  return self:recv_ComposeText(req_id, text, carrier)
+  tmp = self:recv_ComposeText(req_id, text, carrier)
+  io.write(string.format("shiftlog luasenddone TextServiceClient ComposeText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function TextServiceClient:send_ComposeText(req_id, text, carrier)
@@ -81,6 +87,8 @@ function TextServiceProcessor:process_ComposeText(seqid, iprot, oprot, server_ct
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ComposeText_result:new{}
+  io.write(string.format("shiftlog luaprocessstart TextServiceProcessor ComposeText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ComposeText, self.handler, args.req_id, args.text, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -90,6 +98,8 @@ function TextServiceProcessor:process_ComposeText(seqid, iprot, oprot, server_ct
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend TextServiceProcessor ComposeText %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ComposeText', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

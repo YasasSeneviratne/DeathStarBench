@@ -78,7 +78,8 @@ class Client(Iface):
         self._seqid = 0
 
     def UploadText(self, req_id, text, carrier):
-        sys.stdout.write("shiftlog python UploadText")
+        sys.stdout.write("shiftlog python sendUploadText")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -115,7 +116,8 @@ class Client(Iface):
         return
 
     def UploadRating(self, req_id, rating, carrier):
-        sys.stdout.write("shiftlog python UploadRating")
+        sys.stdout.write("shiftlog python sendUploadRating")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -152,7 +154,8 @@ class Client(Iface):
         return
 
     def UploadMovieId(self, req_id, movie_id, carrier):
-        sys.stdout.write("shiftlog python UploadMovieId")
+        sys.stdout.write("shiftlog python sendUploadMovieId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -189,7 +192,8 @@ class Client(Iface):
         return
 
     def UploadUniqueId(self, req_id, unique_id, carrier):
-        sys.stdout.write("shiftlog python UploadUniqueId")
+        sys.stdout.write("shiftlog python sendUploadUniqueId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -226,7 +230,8 @@ class Client(Iface):
         return
 
     def UploadUserId(self, req_id, user_id, carrier):
-        sys.stdout.write("shiftlog python UploadUserId")
+        sys.stdout.write("shiftlog python sendUploadUserId")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -295,6 +300,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_UploadText(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadText")
+        sys.exit("shiftlog exit")
         args = UploadText_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -321,6 +328,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_UploadRating(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadRating")
+        sys.exit("shiftlog exit")
         args = UploadRating_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -347,6 +356,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_UploadMovieId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadMovieId")
+        sys.exit("shiftlog exit")
         args = UploadMovieId_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -373,6 +384,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_UploadUniqueId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadUniqueId")
+        sys.exit("shiftlog exit")
         args = UploadUniqueId_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -399,6 +412,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_UploadUserId(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process UploadUserId")
+        sys.exit("shiftlog exit")
         args = UploadUserId_args()
         args.read(iprot)
         iprot.readMessageEnd()

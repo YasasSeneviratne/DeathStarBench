@@ -554,6 +554,10 @@ void MovieIdServiceClient::UploadMovieId(const int64_t req_id, const std::string
   std::cout << "shiftlog send MovieIdService UploadMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadMovieId(req_id, title, rating, carrier);
   recv_UploadMovieId();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone MovieIdService UploadMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void MovieIdServiceClient::send_UploadMovieId(const int64_t req_id, const std::string& title, const int32_t rating, const std::map<std::string, std::string> & carrier)
@@ -617,6 +621,10 @@ void MovieIdServiceClient::RegisterMovieId(const int64_t req_id, const std::stri
   std::cout << "shiftlog send MovieIdService RegisterMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_RegisterMovieId(req_id, title, movie_id, carrier);
   recv_RegisterMovieId();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone MovieIdService RegisterMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void MovieIdServiceClient::send_RegisterMovieId(const int64_t req_id, const std::string& title, const std::string& movie_id, const std::map<std::string, std::string> & carrier)
@@ -716,7 +724,7 @@ void MovieIdServiceProcessor::process_UploadMovieId(int32_t seqid, ::apache::thr
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process MovieIdService UploadMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart MovieIdService UploadMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadMovieId(args.req_id, args.title, args.rating, args.carrier);
   } catch (ServiceException &se) {
@@ -726,7 +734,10 @@ void MovieIdServiceProcessor::process_UploadMovieId(int32_t seqid, ::apache::thr
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "MovieIdService.UploadMovieId");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend MovieIdService UploadMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadMovieId", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -741,6 +752,10 @@ void MovieIdServiceProcessor::process_UploadMovieId(int32_t seqid, ::apache::thr
     this->eventHandler_->preWrite(ctx, "MovieIdService.UploadMovieId");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend MovieIdService UploadMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadMovieId", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -777,7 +792,7 @@ void MovieIdServiceProcessor::process_RegisterMovieId(int32_t seqid, ::apache::t
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process MovieIdService RegisterMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart MovieIdService RegisterMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->RegisterMovieId(args.req_id, args.title, args.movie_id, args.carrier);
   } catch (ServiceException &se) {
@@ -787,7 +802,10 @@ void MovieIdServiceProcessor::process_RegisterMovieId(int32_t seqid, ::apache::t
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "MovieIdService.RegisterMovieId");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend MovieIdService RegisterMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("RegisterMovieId", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -802,6 +820,10 @@ void MovieIdServiceProcessor::process_RegisterMovieId(int32_t seqid, ::apache::t
     this->eventHandler_->preWrite(ctx, "MovieIdService.RegisterMovieId");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend MovieIdService RegisterMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("RegisterMovieId", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -828,6 +850,10 @@ void MovieIdServiceConcurrentClient::UploadMovieId(const int64_t req_id, const s
   std::cout << "shiftlog sendcon MovieIdService UploadMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadMovieId(req_id, title, rating, carrier);
   recv_UploadMovieId(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone MovieIdService UploadMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t MovieIdServiceConcurrentClient::send_UploadMovieId(const int64_t req_id, const std::string& title, const int32_t rating, const std::map<std::string, std::string> & carrier)
@@ -917,6 +943,10 @@ void MovieIdServiceConcurrentClient::RegisterMovieId(const int64_t req_id, const
   std::cout << "shiftlog sendcon MovieIdService RegisterMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_RegisterMovieId(req_id, title, movie_id, carrier);
   recv_RegisterMovieId(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone MovieIdService RegisterMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t MovieIdServiceConcurrentClient::send_RegisterMovieId(const int64_t req_id, const std::string& title, const std::string& movie_id, const std::map<std::string, std::string> & carrier)

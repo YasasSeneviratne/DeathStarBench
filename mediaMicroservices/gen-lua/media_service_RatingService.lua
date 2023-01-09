@@ -20,6 +20,8 @@ function RatingServiceClient:UploadRating(req_id, movie_id, rating, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_UploadRating(req_id, movie_id, rating, carrier)
   self:recv_UploadRating(req_id, movie_id, rating, carrier)
+  io.write(string.format("shiftlog luasenddone RatingServiceClient UploadRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function RatingServiceClient:send_UploadRating(req_id, movie_id, rating, carrier)
@@ -80,6 +82,8 @@ function RatingServiceProcessor:process_UploadRating(seqid, iprot, oprot, server
   args:read(iprot)
   iprot:readMessageEnd()
   local result = UploadRating_result:new{}
+  io.write(string.format("shiftlog luaprocessstart RatingServiceProcessor UploadRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.UploadRating, self.handler, args.req_id, args.movie_id, args.rating, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -89,6 +93,8 @@ function RatingServiceProcessor:process_UploadRating(seqid, iprot, oprot, server
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend RatingServiceProcessor UploadRating %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('UploadRating', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

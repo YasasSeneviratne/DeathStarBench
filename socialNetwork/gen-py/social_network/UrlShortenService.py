@@ -48,6 +48,8 @@ class Client(Iface):
         self._seqid = 0
 
     def ComposeUrls(self, req_id, urls, carrier):
+        sys.stdout.write("shiftlog python sendComposeUrls")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -86,6 +88,8 @@ class Client(Iface):
         raise TApplicationException(TApplicationException.MISSING_RESULT, "ComposeUrls failed: unknown result")
 
     def GetExtendedUrls(self, req_id, shortened_urls, carrier):
+        sys.stdout.write("shiftlog python sendGetExtendedUrls")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -153,6 +157,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_ComposeUrls(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ComposeUrls")
+        sys.exit("shiftlog exit")
         args = ComposeUrls_args()
         args.read(iprot)
         iprot.readMessageEnd()
@@ -179,6 +185,8 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
     def process_GetExtendedUrls(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process GetExtendedUrls")
+        sys.exit("shiftlog exit")
         args = GetExtendedUrls_args()
         args.read(iprot)
         iprot.readMessageEnd()

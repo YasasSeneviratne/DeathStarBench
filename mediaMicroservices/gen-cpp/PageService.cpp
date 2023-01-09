@@ -322,6 +322,11 @@ void PageServiceClient::ReadPage(Page& _return, const int64_t req_id, const std:
   std::cout << "shiftlog send PageService ReadPage "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_ReadPage(req_id, movie_id, review_start, review_stop, carrier);
   recv_ReadPage(_return);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone PageService ReadPage "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 void PageServiceClient::send_ReadPage(const int64_t req_id, const std::string& movie_id, const int32_t review_start, const int32_t review_stop, const std::map<std::string, std::string> & carrier)
@@ -427,7 +432,7 @@ void PageServiceProcessor::process_ReadPage(int32_t seqid, ::apache::thrift::pro
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process PageService ReadPage "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart PageService ReadPage "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->ReadPage(result.success, args.req_id, args.movie_id, args.review_start, args.review_stop, args.carrier);
     result.__isset.success = true;
@@ -438,7 +443,10 @@ void PageServiceProcessor::process_ReadPage(int32_t seqid, ::apache::thrift::pro
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "PageService.ReadPage");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend PageService ReadPage "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("ReadPage", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -453,6 +461,10 @@ void PageServiceProcessor::process_ReadPage(int32_t seqid, ::apache::thrift::pro
     this->eventHandler_->preWrite(ctx, "PageService.ReadPage");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend PageService ReadPage "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("ReadPage", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -479,6 +491,11 @@ void PageServiceConcurrentClient::ReadPage(Page& _return, const int64_t req_id, 
   std::cout << "shiftlog sendcon PageService ReadPage "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_ReadPage(req_id, movie_id, review_start, review_stop, carrier);
   recv_ReadPage(_return, seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone PageService ReadPage "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 int32_t PageServiceConcurrentClient::send_ReadPage(const int64_t req_id, const std::string& movie_id, const int32_t review_start, const int32_t review_stop, const std::map<std::string, std::string> & carrier)

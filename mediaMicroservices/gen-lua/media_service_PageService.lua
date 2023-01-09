@@ -174,7 +174,10 @@ function PageServiceClient:ReadPage(req_id, movie_id, review_start, review_stop,
   io.write(string.format("shiftlog luasend PageServiceClient ReadPage %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadPage(req_id, movie_id, review_start, review_stop, carrier)
-  return self:recv_ReadPage(req_id, movie_id, review_start, review_stop, carrier)
+  tmp = self:recv_ReadPage(req_id, movie_id, review_start, review_stop, carrier)
+  io.write(string.format("shiftlog luasenddone PageServiceClient ReadPage %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function PageServiceClient:send_ReadPage(req_id, movie_id, review_start, review_stop, carrier)
@@ -242,6 +245,8 @@ function PageServiceProcessor:process_ReadPage(seqid, iprot, oprot, server_ctx)
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadPage_result:new{}
+  io.write(string.format("shiftlog luaprocessstart PageServiceProcessor ReadPage %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadPage, self.handler, args.req_id, args.movie_id, args.review_start, args.review_stop, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -251,6 +256,8 @@ function PageServiceProcessor:process_ReadPage(seqid, iprot, oprot, server_ctx)
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend PageServiceProcessor ReadPage %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadPage', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

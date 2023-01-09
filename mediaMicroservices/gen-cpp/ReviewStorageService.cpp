@@ -602,6 +602,10 @@ void ReviewStorageServiceClient::StoreReview(const int64_t req_id, const Review&
   std::cout << "shiftlog send ReviewStorageService StoreReview "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_StoreReview(req_id, review, carrier);
   recv_StoreReview();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone ReviewStorageService StoreReview "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void ReviewStorageServiceClient::send_StoreReview(const int64_t req_id, const Review& review, const std::map<std::string, std::string> & carrier)
@@ -664,6 +668,11 @@ void ReviewStorageServiceClient::ReadReviews(std::vector<Review> & _return, cons
   std::cout << "shiftlog send ReviewStorageService ReadReviews "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_ReadReviews(req_id, review_ids, carrier);
   recv_ReadReviews(_return);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone ReviewStorageService ReadReviews "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 void ReviewStorageServiceClient::send_ReadReviews(const int64_t req_id, const std::vector<int64_t> & review_ids, const std::map<std::string, std::string> & carrier)
@@ -767,7 +776,7 @@ void ReviewStorageServiceProcessor::process_StoreReview(int32_t seqid, ::apache:
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process ReviewStorageService StoreReview "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart ReviewStorageService StoreReview "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->StoreReview(args.req_id, args.review, args.carrier);
   } catch (ServiceException &se) {
@@ -777,7 +786,10 @@ void ReviewStorageServiceProcessor::process_StoreReview(int32_t seqid, ::apache:
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ReviewStorageService.StoreReview");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend ReviewStorageService StoreReview "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("StoreReview", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -792,6 +804,10 @@ void ReviewStorageServiceProcessor::process_StoreReview(int32_t seqid, ::apache:
     this->eventHandler_->preWrite(ctx, "ReviewStorageService.StoreReview");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend ReviewStorageService StoreReview "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("StoreReview", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -828,7 +844,7 @@ void ReviewStorageServiceProcessor::process_ReadReviews(int32_t seqid, ::apache:
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process ReviewStorageService ReadReviews "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart ReviewStorageService ReadReviews "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->ReadReviews(result.success, args.req_id, args.review_ids, args.carrier);
     result.__isset.success = true;
@@ -839,7 +855,10 @@ void ReviewStorageServiceProcessor::process_ReadReviews(int32_t seqid, ::apache:
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ReviewStorageService.ReadReviews");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend ReviewStorageService ReadReviews "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("ReadReviews", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -854,6 +873,10 @@ void ReviewStorageServiceProcessor::process_ReadReviews(int32_t seqid, ::apache:
     this->eventHandler_->preWrite(ctx, "ReviewStorageService.ReadReviews");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend ReviewStorageService ReadReviews "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("ReadReviews", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -880,6 +903,10 @@ void ReviewStorageServiceConcurrentClient::StoreReview(const int64_t req_id, con
   std::cout << "shiftlog sendcon ReviewStorageService StoreReview "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_StoreReview(req_id, review, carrier);
   recv_StoreReview(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone ReviewStorageService StoreReview "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t ReviewStorageServiceConcurrentClient::send_StoreReview(const int64_t req_id, const Review& review, const std::map<std::string, std::string> & carrier)
@@ -968,6 +995,11 @@ void ReviewStorageServiceConcurrentClient::ReadReviews(std::vector<Review> & _re
   std::cout << "shiftlog sendcon ReviewStorageService ReadReviews "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_ReadReviews(req_id, review_ids, carrier);
   recv_ReadReviews(_return, seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone ReviewStorageService ReadReviews "<<req_id<<" "<< nanoseconds.count() <<std::endl;
+  printf("shiftlog testprocess1");
 }
 
 int32_t ReviewStorageServiceConcurrentClient::send_ReadReviews(const int64_t req_id, const std::vector<int64_t> & review_ids, const std::map<std::string, std::string> & carrier)

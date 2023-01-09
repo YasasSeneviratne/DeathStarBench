@@ -20,6 +20,8 @@ function ReviewStorageServiceClient:StoreReview(req_id, review, carrier)
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_StoreReview(req_id, review, carrier)
   self:recv_StoreReview(req_id, review, carrier)
+  io.write(string.format("shiftlog luasenddone ReviewStorageServiceClient StoreReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
 end
 
 function ReviewStorageServiceClient:send_StoreReview(req_id, review, carrier)
@@ -50,7 +52,10 @@ function ReviewStorageServiceClient:ReadReviews(req_id, review_ids, carrier)
   io.write(string.format("shiftlog luasend ReviewStorageServiceClient ReadReviews %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   self:send_ReadReviews(req_id, review_ids, carrier)
-  return self:recv_ReadReviews(req_id, review_ids, carrier)
+  tmp = self:recv_ReadReviews(req_id, review_ids, carrier)
+  io.write(string.format("shiftlog luasenddone ReviewStorageServiceClient ReadReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
+  return tmp
 end
 
 function ReviewStorageServiceClient:send_ReadReviews(req_id, review_ids, carrier)
@@ -116,6 +121,8 @@ function ReviewStorageServiceProcessor:process_StoreReview(seqid, iprot, oprot, 
   args:read(iprot)
   iprot:readMessageEnd()
   local result = StoreReview_result:new{}
+  io.write(string.format("shiftlog luaprocessstart ReviewStorageServiceProcessor StoreReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.StoreReview, self.handler, args.req_id, args.review, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -125,6 +132,8 @@ function ReviewStorageServiceProcessor:process_StoreReview(seqid, iprot, oprot, 
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend ReviewStorageServiceProcessor StoreReview %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('StoreReview', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()
@@ -137,6 +146,8 @@ function ReviewStorageServiceProcessor:process_ReadReviews(seqid, iprot, oprot, 
   args:read(iprot)
   iprot:readMessageEnd()
   local result = ReadReviews_result:new{}
+  io.write(string.format("shiftlog luaprocessstart ReviewStorageServiceProcessor ReadReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   local status, res = pcall(self.handler.ReadReviews, self.handler, args.req_id, args.review_ids, args.carrier)
   if not status then
     reply_type = TMessageType.EXCEPTION
@@ -146,6 +157,8 @@ function ReviewStorageServiceProcessor:process_ReadReviews(seqid, iprot, oprot, 
   else
     result.success = res
   end
+  io.write(string.format("shiftlog luaprocessend ReviewStorageServiceProcessor ReadReviews %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   oprot:writeMessageBegin('ReadReviews', reply_type, seqid)
   result:write(oprot)
   oprot:writeMessageEnd()

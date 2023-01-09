@@ -39,10 +39,12 @@ function _M.WriteCastInfo()
   end
 
   local client = GenericObjectPool:connection(CastInfoServiceClient, "cast-info-service" .. k8s_suffix, 9090)
-  io.write(string.format("shiftlog luanginx WriteCastInfo %d",req_id))
+  io.write(string.format("shiftlog luanginxstart WriteCastInfo %d",req_id))
   io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   client:WriteCastInfo(req_id, cast_info["cast_info_id"], cast_info["name"],
       cast_info["gender"], cast_info["intro"],  carrier)
+  io.write(string.format("shiftlog luanginxend WriteCastInfo %d",req_id))
+  io.write(string.format(" %s%s\n",posix.clock_gettime('0')))
   GenericObjectPool:returnConnection(client)
 
 end

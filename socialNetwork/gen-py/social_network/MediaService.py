@@ -39,6 +39,8 @@ class Client(Iface):
         self._seqid = 0
 
     def ComposeMedia(self, req_id, media_types, media_ids, carrier):
+        sys.stdout.write("shiftlog python sendComposeMedia")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -107,6 +109,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_ComposeMedia(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ComposeMedia")
+        sys.exit("shiftlog exit")
         args = ComposeMedia_args()
         args.read(iprot)
         iprot.readMessageEnd()

@@ -38,6 +38,8 @@ class Client(Iface):
         self._seqid = 0
 
     def ComposeText(self, req_id, text, carrier):
+        sys.stdout.write("shiftlog python sendComposeText")
+        sys.exit("shiftlog exit")
         """
         Parameters:
          - req_id
@@ -104,6 +106,8 @@ class Processor(Iface, TProcessor):
         return True
 
     def process_ComposeText(self, seqid, iprot, oprot):
+        sys.stdout.write("shiftlog python process ComposeText")
+        sys.exit("shiftlog exit")
         args = ComposeText_args()
         args.read(iprot)
         iprot.readMessageEnd()

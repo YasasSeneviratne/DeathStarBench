@@ -1278,6 +1278,10 @@ void ComposeReviewServiceClient::UploadText(const int64_t req_id, const std::str
   std::cout << "shiftlog send ComposeReviewService UploadText "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadText(req_id, text, carrier);
   recv_UploadText();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone ComposeReviewService UploadText "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void ComposeReviewServiceClient::send_UploadText(const int64_t req_id, const std::string& text, const std::map<std::string, std::string> & carrier)
@@ -1340,6 +1344,10 @@ void ComposeReviewServiceClient::UploadRating(const int64_t req_id, const int32_
   std::cout << "shiftlog send ComposeReviewService UploadRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadRating(req_id, rating, carrier);
   recv_UploadRating();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone ComposeReviewService UploadRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void ComposeReviewServiceClient::send_UploadRating(const int64_t req_id, const int32_t rating, const std::map<std::string, std::string> & carrier)
@@ -1402,6 +1410,10 @@ void ComposeReviewServiceClient::UploadMovieId(const int64_t req_id, const std::
   std::cout << "shiftlog send ComposeReviewService UploadMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadMovieId(req_id, movie_id, carrier);
   recv_UploadMovieId();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone ComposeReviewService UploadMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void ComposeReviewServiceClient::send_UploadMovieId(const int64_t req_id, const std::string& movie_id, const std::map<std::string, std::string> & carrier)
@@ -1464,6 +1476,10 @@ void ComposeReviewServiceClient::UploadUniqueId(const int64_t req_id, const int6
   std::cout << "shiftlog send ComposeReviewService UploadUniqueId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadUniqueId(req_id, unique_id, carrier);
   recv_UploadUniqueId();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone ComposeReviewService UploadUniqueId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void ComposeReviewServiceClient::send_UploadUniqueId(const int64_t req_id, const int64_t unique_id, const std::map<std::string, std::string> & carrier)
@@ -1526,6 +1542,10 @@ void ComposeReviewServiceClient::UploadUserId(const int64_t req_id, const int64_
   std::cout << "shiftlog send ComposeReviewService UploadUserId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadUserId(req_id, user_id, carrier);
   recv_UploadUserId();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone ComposeReviewService UploadUserId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void ComposeReviewServiceClient::send_UploadUserId(const int64_t req_id, const int64_t user_id, const std::map<std::string, std::string> & carrier)
@@ -1624,7 +1644,7 @@ void ComposeReviewServiceProcessor::process_UploadText(int32_t seqid, ::apache::
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process ComposeReviewService UploadText "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart ComposeReviewService UploadText "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadText(args.req_id, args.text, args.carrier);
   } catch (ServiceException &se) {
@@ -1634,7 +1654,10 @@ void ComposeReviewServiceProcessor::process_UploadText(int32_t seqid, ::apache::
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ComposeReviewService.UploadText");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend ComposeReviewService UploadText "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadText", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1649,6 +1672,10 @@ void ComposeReviewServiceProcessor::process_UploadText(int32_t seqid, ::apache::
     this->eventHandler_->preWrite(ctx, "ComposeReviewService.UploadText");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend ComposeReviewService UploadText "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadText", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1685,7 +1712,7 @@ void ComposeReviewServiceProcessor::process_UploadRating(int32_t seqid, ::apache
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process ComposeReviewService UploadRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart ComposeReviewService UploadRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadRating(args.req_id, args.rating, args.carrier);
   } catch (ServiceException &se) {
@@ -1695,7 +1722,10 @@ void ComposeReviewServiceProcessor::process_UploadRating(int32_t seqid, ::apache
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ComposeReviewService.UploadRating");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend ComposeReviewService UploadRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadRating", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1710,6 +1740,10 @@ void ComposeReviewServiceProcessor::process_UploadRating(int32_t seqid, ::apache
     this->eventHandler_->preWrite(ctx, "ComposeReviewService.UploadRating");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend ComposeReviewService UploadRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadRating", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1746,7 +1780,7 @@ void ComposeReviewServiceProcessor::process_UploadMovieId(int32_t seqid, ::apach
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process ComposeReviewService UploadMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart ComposeReviewService UploadMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadMovieId(args.req_id, args.movie_id, args.carrier);
   } catch (ServiceException &se) {
@@ -1756,7 +1790,10 @@ void ComposeReviewServiceProcessor::process_UploadMovieId(int32_t seqid, ::apach
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ComposeReviewService.UploadMovieId");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend ComposeReviewService UploadMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadMovieId", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1771,6 +1808,10 @@ void ComposeReviewServiceProcessor::process_UploadMovieId(int32_t seqid, ::apach
     this->eventHandler_->preWrite(ctx, "ComposeReviewService.UploadMovieId");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend ComposeReviewService UploadMovieId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadMovieId", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1807,7 +1848,7 @@ void ComposeReviewServiceProcessor::process_UploadUniqueId(int32_t seqid, ::apac
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process ComposeReviewService UploadUniqueId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart ComposeReviewService UploadUniqueId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadUniqueId(args.req_id, args.unique_id, args.carrier);
   } catch (ServiceException &se) {
@@ -1817,7 +1858,10 @@ void ComposeReviewServiceProcessor::process_UploadUniqueId(int32_t seqid, ::apac
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ComposeReviewService.UploadUniqueId");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend ComposeReviewService UploadUniqueId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadUniqueId", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1832,6 +1876,10 @@ void ComposeReviewServiceProcessor::process_UploadUniqueId(int32_t seqid, ::apac
     this->eventHandler_->preWrite(ctx, "ComposeReviewService.UploadUniqueId");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend ComposeReviewService UploadUniqueId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadUniqueId", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1868,7 +1916,7 @@ void ComposeReviewServiceProcessor::process_UploadUserId(int32_t seqid, ::apache
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process ComposeReviewService UploadUserId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart ComposeReviewService UploadUserId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadUserId(args.req_id, args.user_id, args.carrier);
   } catch (ServiceException &se) {
@@ -1878,7 +1926,10 @@ void ComposeReviewServiceProcessor::process_UploadUserId(int32_t seqid, ::apache
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ComposeReviewService.UploadUserId");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend ComposeReviewService UploadUserId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadUserId", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -1893,6 +1944,10 @@ void ComposeReviewServiceProcessor::process_UploadUserId(int32_t seqid, ::apache
     this->eventHandler_->preWrite(ctx, "ComposeReviewService.UploadUserId");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend ComposeReviewService UploadUserId "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadUserId", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -1919,6 +1974,10 @@ void ComposeReviewServiceConcurrentClient::UploadText(const int64_t req_id, cons
   std::cout << "shiftlog sendcon ComposeReviewService UploadText "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadText(req_id, text, carrier);
   recv_UploadText(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone ComposeReviewService UploadText "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t ComposeReviewServiceConcurrentClient::send_UploadText(const int64_t req_id, const std::string& text, const std::map<std::string, std::string> & carrier)
@@ -2007,6 +2066,10 @@ void ComposeReviewServiceConcurrentClient::UploadRating(const int64_t req_id, co
   std::cout << "shiftlog sendcon ComposeReviewService UploadRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadRating(req_id, rating, carrier);
   recv_UploadRating(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone ComposeReviewService UploadRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t ComposeReviewServiceConcurrentClient::send_UploadRating(const int64_t req_id, const int32_t rating, const std::map<std::string, std::string> & carrier)
@@ -2095,6 +2158,10 @@ void ComposeReviewServiceConcurrentClient::UploadMovieId(const int64_t req_id, c
   std::cout << "shiftlog sendcon ComposeReviewService UploadMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadMovieId(req_id, movie_id, carrier);
   recv_UploadMovieId(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone ComposeReviewService UploadMovieId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t ComposeReviewServiceConcurrentClient::send_UploadMovieId(const int64_t req_id, const std::string& movie_id, const std::map<std::string, std::string> & carrier)
@@ -2183,6 +2250,10 @@ void ComposeReviewServiceConcurrentClient::UploadUniqueId(const int64_t req_id, 
   std::cout << "shiftlog sendcon ComposeReviewService UploadUniqueId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadUniqueId(req_id, unique_id, carrier);
   recv_UploadUniqueId(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone ComposeReviewService UploadUniqueId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t ComposeReviewServiceConcurrentClient::send_UploadUniqueId(const int64_t req_id, const int64_t unique_id, const std::map<std::string, std::string> & carrier)
@@ -2271,6 +2342,10 @@ void ComposeReviewServiceConcurrentClient::UploadUserId(const int64_t req_id, co
   std::cout << "shiftlog sendcon ComposeReviewService UploadUserId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadUserId(req_id, user_id, carrier);
   recv_UploadUserId(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone ComposeReviewService UploadUserId "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t ComposeReviewServiceConcurrentClient::send_UploadUserId(const int64_t req_id, const int64_t user_id, const std::map<std::string, std::string> & carrier)

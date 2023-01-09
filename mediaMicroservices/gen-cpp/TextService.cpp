@@ -270,6 +270,10 @@ void TextServiceClient::UploadText(const int64_t req_id, const std::string& text
   std::cout << "shiftlog send TextService UploadText "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadText(req_id, text, carrier);
   recv_UploadText();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone TextService UploadText "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void TextServiceClient::send_UploadText(const int64_t req_id, const std::string& text, const std::map<std::string, std::string> & carrier)
@@ -368,7 +372,7 @@ void TextServiceProcessor::process_UploadText(int32_t seqid, ::apache::thrift::p
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process TextService UploadText "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart TextService UploadText "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadText(args.req_id, args.text, args.carrier);
   } catch (ServiceException &se) {
@@ -378,7 +382,10 @@ void TextServiceProcessor::process_UploadText(int32_t seqid, ::apache::thrift::p
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "TextService.UploadText");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend TextService UploadText "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadText", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -393,6 +400,10 @@ void TextServiceProcessor::process_UploadText(int32_t seqid, ::apache::thrift::p
     this->eventHandler_->preWrite(ctx, "TextService.UploadText");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend TextService UploadText "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadText", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -419,6 +430,10 @@ void TextServiceConcurrentClient::UploadText(const int64_t req_id, const std::st
   std::cout << "shiftlog sendcon TextService UploadText "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadText(req_id, text, carrier);
   recv_UploadText(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone TextService UploadText "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t TextServiceConcurrentClient::send_UploadText(const int64_t req_id, const std::string& text, const std::map<std::string, std::string> & carrier)

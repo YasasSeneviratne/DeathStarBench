@@ -286,6 +286,10 @@ void RatingServiceClient::UploadRating(const int64_t req_id, const std::string& 
   std::cout << "shiftlog send RatingService UploadRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   send_UploadRating(req_id, movie_id, rating, carrier);
   recv_UploadRating();
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog senddone RatingService UploadRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 void RatingServiceClient::send_UploadRating(const int64_t req_id, const std::string& movie_id, const int32_t rating, const std::map<std::string, std::string> & carrier)
@@ -385,7 +389,7 @@ void RatingServiceProcessor::process_UploadRating(int32_t seqid, ::apache::thrif
   std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
   auto duration = now.time_since_epoch();
   auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-  std::cout << "shiftlog process RatingService UploadRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
+  std::cout << "shiftlog processstart RatingService UploadRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   try {
     iface_->UploadRating(args.req_id, args.movie_id, args.rating, args.carrier);
   } catch (ServiceException &se) {
@@ -395,7 +399,10 @@ void RatingServiceProcessor::process_UploadRating(int32_t seqid, ::apache::thrif
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "RatingService.UploadRating");
     }
-    printf("shiftlog testprocess");
+    now = std::chrono::system_clock::now();
+    duration = now.time_since_epoch();
+    nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    std::cout << "shiftlog processend RatingService UploadRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
 
     ::apache::thrift::TApplicationException x(e.what());
     oprot->writeMessageBegin("UploadRating", ::apache::thrift::protocol::T_EXCEPTION, seqid);
@@ -410,6 +417,10 @@ void RatingServiceProcessor::process_UploadRating(int32_t seqid, ::apache::thrif
     this->eventHandler_->preWrite(ctx, "RatingService.UploadRating");
   }
 
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog processend RatingService UploadRating "<<args.req_id<<" "<< nanoseconds.count() <<std::endl;
   oprot->writeMessageBegin("UploadRating", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
@@ -436,6 +447,10 @@ void RatingServiceConcurrentClient::UploadRating(const int64_t req_id, const std
   std::cout << "shiftlog sendcon RatingService UploadRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
   int32_t seqid = send_UploadRating(req_id, movie_id, rating, carrier);
   recv_UploadRating(seqid);
+  now = std::chrono::system_clock::now();
+  duration = now.time_since_epoch();
+  nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+  std::cout << "shiftlog sendcondone RatingService UploadRating "<<req_id<<" "<< nanoseconds.count() <<std::endl;
 }
 
 int32_t RatingServiceConcurrentClient::send_UploadRating(const int64_t req_id, const std::string& movie_id, const int32_t rating, const std::map<std::string, std::string> & carrier)
